@@ -3,6 +3,7 @@ package com.spiros.campaign.common.transformer;
 import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.persistence.entity.CampaignEntity;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -10,13 +11,46 @@ import java.util.Optional;
 @Component
 public class CampaignTransformer  implements EntityTransformer<CampaignEntity, Campaign>{
 
+    @Autowired
+    private CampaignGroupTransformer campaignGroupTransformer;
+    @Autowired
+    private RecommendationTransformer recommendationTransformer;
+
     @Override
     public Optional<Campaign> fromEntityToTransfer(@Nullable CampaignEntity entity) {
-        return Optional.of(new Campaign());
+        if (entity != null) {
+            Campaign campaign = new Campaign();
+            campaign.setCampaignGroup(campaignGroupTransformer
+                    .fromEntityToTransfer(entity.getCampaignGroup())
+                    .orElse(null));
+            campaign.setRecommendation(recommendationTransformer
+                    .fromEntityToTransfer(entity.getRecommendation())
+                    .orElse(null));
+            campaign.setName(entity.getName());
+            campaign.setBudget(entity.getBudget());
+            campaign.setImpressions(entity.getImpressions());
+            campaign.setRevenue(entity.getRevenue());
+            return Optional.of(campaign);
+        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<CampaignEntity> fromTransferToEntity(@Nullable Campaign transfer) {
-        return Optional.of(new CampaignEntity());
+        if (transfer != null) {
+            CampaignEntity campaignEntity = new CampaignEntity();
+            campaignEntity.setCampaignGroup(campaignGroupTransformer
+                    .fromTransferToEntity(transfer.getCampaignGroup())
+                    .orElse(null));
+            campaignEntity.setRecommendation(recommendationTransformer
+                    .fromTransferToEntity(transfer.getRecommendation())
+                    .orElse(null));
+            campaignEntity.setName(transfer.getName());
+            campaignEntity.setBudget(transfer.getBudget());
+            campaignEntity.setImpressions(transfer.getImpressions());
+            campaignEntity.setRevenue(transfer.getRevenue());
+            return Optional.of(campaignEntity);
+        }
+        return Optional.empty();
     }
 }

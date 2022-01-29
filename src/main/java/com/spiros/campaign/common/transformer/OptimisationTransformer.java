@@ -36,6 +36,17 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
 
     @Override
     public Optional<OptimisationEntity> fromTransferToEntity(@Nullable Optimisation transfer) {
-        return Optional.of(new OptimisationEntity());
+        if (transfer != null) {
+            OptimisationEntity optimisationEntity = new OptimisationEntity();
+            optimisationEntity.setOptimisationStatus(transfer.getOptimisationStatus());
+            optimisationEntity.setCampaignGroup(campaignGroupTransformer
+                    .fromTransferToEntity(transfer.getCampaignGroup())
+                    .orElse(null));
+            optimisationEntity.setRecommendations(recommendationTransformer
+                    .transformListFromTransferToEntity(transfer.getRecommendations()));
+            return Optional.of(optimisationEntity);
+
+        }
+        return Optional.empty();
     }
 }

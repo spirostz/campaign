@@ -33,6 +33,9 @@ class RecommendationTransformerTest {
         assertEquals( 0, BigDecimal.ONE.compareTo(result.getRecommendedBudget()), "Equal value check");
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());
+
+        assertFalse(recommendationTransformer.fromEntityToTransfer(null).isPresent());
+
     }
 
     @Test
@@ -48,5 +51,8 @@ class RecommendationTransformerTest {
         assertEquals( 0, BigDecimal.ONE.compareTo(result.getRecommendedBudget()), "Equal value check");
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());
+
+        assertFalse(recommendationTransformer.fromTransferToEntity(null).isPresent());
+
     }
 }

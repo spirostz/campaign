@@ -34,6 +34,9 @@ class CampaignGroupTransformerTest {
         assertEquals("CampaignGroup Sample Name", result.getName());
         assertEquals(2, result.getCampaigns().size());
         assertNotNull(result.getOptimisation());
+
+        assertFalse(campaignGroupTransformer.fromEntityToTransfer(null).isPresent());
+
     }
 
     @Test
@@ -50,6 +53,7 @@ class CampaignGroupTransformerTest {
         assertEquals(2, result.getCampaigns().size());
         assertNotNull(result.getOptimisation());
 
+        assertFalse(campaignGroupTransformer.fromTransferToEntity(null).isPresent());
 
     }
 }

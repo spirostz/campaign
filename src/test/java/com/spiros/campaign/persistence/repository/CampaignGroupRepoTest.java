@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +32,7 @@ class CampaignGroupRepoTest {
         campaignGroup.setName("campaignGroupTest");
 
         CampaignEntity campaign1 = new CampaignEntity();
+        campaign1.setRevenue(BigDecimal.valueOf(0.12345678987654321));
        // campaign1.setCampaignGroup(campaignGroup);
 
         CampaignEntity campaign2 = new CampaignEntity();
