@@ -12,9 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class CampaignGroupRepoTest {
@@ -24,7 +23,7 @@ class CampaignGroupRepoTest {
 
     @Test
     @Transactional
-    void testSampleCampaignGroup() {
+    void testCampaignGroup_shouldBeAbleToPersistAllRelevantEntities() {
 
         CampaignGroupEntity campaignGroup = new CampaignGroupEntity();
         campaignGroup.setName("campaignGroupTest");
@@ -55,6 +54,9 @@ class CampaignGroupRepoTest {
 
         CampaignGroupEntity campaignGroupSaved = campaignGroupRepo.save(campaignGroup);
 
-        assertTrue(true);
+        assertEquals(2, campaignGroupSaved.getCampaigns().size());
+        assertEquals("campaignGroupTest", campaignGroupSaved.getName());
+        assertEquals(OptimisationStatusType.NOT_APPLIED, campaignGroupSaved.getOptimisation().getOptimisationStatus());
+        assertEquals(2, campaignGroupSaved.getOptimisation().getRecommendations().size());
     }
 }
