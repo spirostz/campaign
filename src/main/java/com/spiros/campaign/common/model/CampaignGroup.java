@@ -1,7 +1,5 @@
 package com.spiros.campaign.common.model;
 
-import java.util.List;
-
 public class CampaignGroup extends AbstractTransferObject {
 
     private String name;

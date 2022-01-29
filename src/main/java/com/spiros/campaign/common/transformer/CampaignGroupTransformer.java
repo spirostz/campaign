@@ -3,7 +3,6 @@ package com.spiros.campaign.common.transformer;
 import com.spiros.campaign.common.model.CampaignGroup;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

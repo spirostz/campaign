@@ -2,8 +2,6 @@ package com.spiros.campaign.common.model;
 
 import com.spiros.campaign.common.enums.OptimisationStatusType;
 
-import java.util.List;
-
 public class Optimisation extends AbstractTransferObject {
 
     private CampaignGroup campaignGroup;
