@@ -1,7 +1,11 @@
 package com.spiros.campaign.common.transformer;
 
+import com.spiros.campaign.common.model.Campaign;
+import com.spiros.campaign.common.model.CampaignGroup;
+import com.spiros.campaign.common.model.Optimisation;
 import com.spiros.campaign.persistence.entity.CampaignEntity;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
+import com.spiros.campaign.persistence.entity.OptimisationEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,14 +24,32 @@ class CampaignGroupTransformerTest {
     @Test
     void fromEntityToTransfer() {
         CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
-        CampaignEntity campaign1 = new CampaignEntity();
-        CampaignEntity campaign2 = new CampaignEntity();
+        campaignGroupEntity.setName("CampaignGroup Sample Name");
+        campaignGroupEntity.setCampaigns(Arrays.asList(new CampaignEntity(), new CampaignEntity()));
+        campaignGroupEntity.setOptimisation(new OptimisationEntity());
 
-        campaignGroupEntity.setCampaigns(Arrays.asList(campaign1, campaign2));
+        CampaignGroup result = campaignGroupTransformer.fromEntityToTransfer(campaignGroupEntity)
+                .orElseThrow(IllegalStateException::new);
 
+        assertEquals("CampaignGroup Sample Name", result.getName());
+        assertEquals(2, result.getCampaigns().size());
+        assertNotNull(result.getOptimisation());
     }
 
     @Test
     void fromTransferToEntity() {
+        CampaignGroup campaignGroup = new CampaignGroup();
+        campaignGroup.setName("CampaignGroup Sample Name");
+        campaignGroup.setCampaigns(Arrays.asList(new Campaign(), new Campaign()));
+        campaignGroup.setOptimisation(new Optimisation());
+
+        CampaignGroupEntity result = campaignGroupTransformer.fromTransferToEntity(campaignGroup)
+                .orElseThrow(IllegalStateException::new);
+
+        assertEquals("CampaignGroup Sample Name", result.getName());
+        assertEquals(2, result.getCampaigns().size());
+        assertNotNull(result.getOptimisation());
+
+
     }
 }

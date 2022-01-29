@@ -12,11 +12,12 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
 
     @Override
     public Optional<Optimisation> fromEntityToTransfer(@Nullable OptimisationEntity entity) {
-        return Optional.empty();
+        //TODO:
+        return Optional.of(new Optimisation());
     }
 
     @Override
     public Optional<OptimisationEntity> fromTransferToEntity(@Nullable Optimisation transfer) {
-        return Optional.empty();
+        return Optional.of(new OptimisationEntity());
     }
 }
