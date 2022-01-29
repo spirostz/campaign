@@ -13,8 +13,6 @@ public class CampaignTransformer  implements EntityTransformer<CampaignEntity, C
 
     @Autowired
     private CampaignGroupTransformer campaignGroupTransformer;
-    @Autowired
-    private RecommendationTransformer recommendationTransformer;
 
     @Override
     public Optional<Campaign> fromEntityToTransfer(@Nullable CampaignEntity entity) {
@@ -22,9 +20,6 @@ public class CampaignTransformer  implements EntityTransformer<CampaignEntity, C
             Campaign campaign = new Campaign();
             campaign.setCampaignGroup(campaignGroupTransformer
                     .fromEntityToTransfer(entity.getCampaignGroup())
-                    .orElse(null));
-            campaign.setRecommendation(recommendationTransformer
-                    .fromEntityToTransfer(entity.getRecommendation())
                     .orElse(null));
             campaign.setName(entity.getName());
             campaign.setBudget(entity.getBudget());
@@ -41,9 +36,6 @@ public class CampaignTransformer  implements EntityTransformer<CampaignEntity, C
             CampaignEntity campaignEntity = new CampaignEntity();
             campaignEntity.setCampaignGroup(campaignGroupTransformer
                     .fromTransferToEntity(transfer.getCampaignGroup())
-                    .orElse(null));
-            campaignEntity.setRecommendation(recommendationTransformer
-                    .fromTransferToEntity(transfer.getRecommendation())
                     .orElse(null));
             campaignEntity.setName(transfer.getName());
             campaignEntity.setBudget(transfer.getBudget());

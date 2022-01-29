@@ -1,6 +1,8 @@
 package com.spiros.campaign.persistence.repository;
 
 import com.spiros.campaign.common.enums.OptimisationStatusType;
+import com.spiros.campaign.common.model.CampaignGroup;
+import com.spiros.campaign.common.transformer.CampaignGroupTransformer;
 import com.spiros.campaign.persistence.entity.CampaignEntity;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
@@ -20,6 +22,9 @@ class CampaignGroupRepoTest {
 
     @Autowired
     private CampaignGroupRepo campaignGroupRepo;
+
+    @Autowired
+    private CampaignGroupTransformer campaignGroupTransformer;
 
 
     //TODO: Remove code comments
@@ -57,6 +62,9 @@ class CampaignGroupRepoTest {
         optimisation.setRecommendations(Arrays.asList(recommendation1, recommendation2));
 
         CampaignGroupEntity campaignGroupSaved = campaignGroupRepo.save(campaignGroup);
+
+        //TODO: Remove
+        CampaignGroup campaignGroup1 = campaignGroupTransformer.fromEntityToTransfer(campaignGroupSaved).get();
 
         assertEquals(2, campaignGroupSaved.getCampaigns().size());
         assertEquals("campaignGroupTest", campaignGroupSaved.getName());

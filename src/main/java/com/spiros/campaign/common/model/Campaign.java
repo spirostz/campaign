@@ -11,8 +11,6 @@ public class Campaign extends AbstractTransferObject {
     private Long impressions;
     private BigDecimal revenue;
 
-    private Recommendation recommendation;
-
     public CampaignGroup getCampaignGroup() {
         return campaignGroup;
     }
@@ -53,11 +51,4 @@ public class Campaign extends AbstractTransferObject {
         this.revenue = revenue;
     }
 
-    public Recommendation getRecommendation() {
-        return recommendation;
-    }
-
-    public void setRecommendation(Recommendation recommendation) {
-        this.recommendation = recommendation;
-    }
 }

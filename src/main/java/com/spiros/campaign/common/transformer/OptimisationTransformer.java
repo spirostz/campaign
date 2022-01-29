@@ -14,9 +14,6 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
     @Autowired
     private CampaignGroupTransformer campaignGroupTransformer;
 
-    @Autowired
-    private RecommendationTransformer recommendationTransformer;
-
     @Override
     public Optional<Optimisation> fromEntityToTransfer(@Nullable OptimisationEntity entity) {
 
@@ -26,8 +23,6 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
             optimisation.setCampaignGroup(campaignGroupTransformer
                     .fromEntityToTransfer(entity.getCampaignGroup())
                     .orElse(null));
-            optimisation.setRecommendations(recommendationTransformer
-                    .transformListFromEntityToTransfer(entity.getRecommendations()));
             return Optional.of(optimisation);
 
         }
@@ -42,8 +37,6 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
             optimisationEntity.setCampaignGroup(campaignGroupTransformer
                     .fromTransferToEntity(transfer.getCampaignGroup())
                     .orElse(null));
-            optimisationEntity.setRecommendations(recommendationTransformer
-                    .transformListFromTransferToEntity(transfer.getRecommendations()));
             return Optional.of(optimisationEntity);
 
         }

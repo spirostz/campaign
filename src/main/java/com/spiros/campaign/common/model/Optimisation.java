@@ -10,8 +10,6 @@ public class Optimisation extends AbstractTransferObject {
 
     private OptimisationStatusType optimisationStatus;
 
-    private List<Recommendation> recommendations;
-
     public CampaignGroup getCampaignGroup() {
         return campaignGroup;
     }
@@ -28,11 +26,4 @@ public class Optimisation extends AbstractTransferObject {
         this.optimisationStatus = optimisationStatus;
     }
 
-    public List<Recommendation> getRecommendations() {
-        return recommendations;
-    }
-
-    public void setRecommendations(List<Recommendation> recommendations) {
-        this.recommendations = recommendations;
-    }
 }

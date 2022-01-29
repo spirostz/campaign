@@ -33,7 +33,6 @@ class OptimisationTransformerTest {
 
         assertEquals(OptimisationStatusType.APPLIED, result.getOptimisationStatus());
         assertNotNull(result.getCampaignGroup());
-        assertEquals(2, result.getRecommendations().size());
 
         assertFalse(optimisationTransformer.fromEntityToTransfer(null).isPresent());
 
@@ -44,14 +43,12 @@ class OptimisationTransformerTest {
         Optimisation optimisation = new Optimisation();
         optimisation.setOptimisationStatus(OptimisationStatusType.APPLIED);
         optimisation.setCampaignGroup(new CampaignGroup());
-        optimisation.setRecommendations(Arrays.asList(new Recommendation(), new Recommendation()));
 
         OptimisationEntity result = optimisationTransformer.fromTransferToEntity(optimisation)
                 .orElseThrow(IllegalStateException::new);
 
         assertEquals(OptimisationStatusType.APPLIED, result.getOptimisationStatus());
         assertNotNull(result.getCampaignGroup());
-        assertEquals(2, result.getRecommendations().size());
 
         assertFalse(optimisationTransformer.fromTransferToEntity(null).isPresent());
 

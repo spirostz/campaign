@@ -34,7 +34,6 @@ class CampaignTransformerTest {
                 .orElseThrow(IllegalStateException::new);
 
         assertNotNull(result.getCampaignGroup());
-        assertNotNull(result.getRecommendation());
         assertEquals("Campaign Test Name", result.getName());
         assertEquals( 0, BigDecimal.TEN.compareTo(result.getBudget()), "Equal value check");
         assertEquals( 50L, result.getImpressions());
@@ -48,7 +47,6 @@ class CampaignTransformerTest {
 
         Campaign campaign = new Campaign();
         campaign.setCampaignGroup(new CampaignGroup());
-        campaign.setRecommendation(new Recommendation());
         campaign.setName("Campaign Test Name");
         campaign.setBudget(BigDecimal.TEN);
         campaign.setImpressions(50L);
@@ -58,7 +56,6 @@ class CampaignTransformerTest {
                 .orElseThrow(IllegalStateException::new);
 
         assertNotNull(result.getCampaignGroup());
-        assertNotNull(result.getRecommendation());
         assertEquals("Campaign Test Name", result.getName());
         assertEquals( 0, BigDecimal.TEN.compareTo(result.getBudget()), "Equal value check");
         assertEquals( 50L, result.getImpressions());
