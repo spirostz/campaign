@@ -11,10 +11,10 @@ public class CampaignGroupEntity extends AbstractEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
-    Set<CampaignEntity> campaigns;
+    private Set<CampaignEntity> campaigns;
 
     @OneToOne(mappedBy = "campaignGroup")
-    OptimisationEntity optimisation;
+    private OptimisationEntity optimisation;
 
     public String getName() {
         return name;
