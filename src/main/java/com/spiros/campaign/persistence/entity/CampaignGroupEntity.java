@@ -11,10 +11,10 @@ public class CampaignGroupEntity extends AbstractEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
-    Set<CampaignEntity> campaignEntities;
+    Set<CampaignEntity> campaigns;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
-    Set<OptimisationEntity> optimisationEntities;
+    @OneToOne(mappedBy = "campaignGroup")
+    OptimisationEntity optimisation;
 
     public String getName() {
         return name;
@@ -24,19 +24,19 @@ public class CampaignGroupEntity extends AbstractEntity {
         this.name = name;
     }
 
-    public Set<CampaignEntity> getCampaignEntities() {
-        return campaignEntities;
+    public Set<CampaignEntity> getCampaigns() {
+        return campaigns;
     }
 
-    public void setCampaignEntities(Set<CampaignEntity> campaignEntities) {
-        this.campaignEntities = campaignEntities;
+    public void setCampaigns(Set<CampaignEntity> campaigns) {
+        this.campaigns = campaigns;
     }
 
-    public Set<OptimisationEntity> getOptimisationEntities() {
-        return optimisationEntities;
+    public OptimisationEntity getOptimisation() {
+        return optimisation;
     }
 
-    public void setOptimisationEntities(Set<OptimisationEntity> optimisationEntities) {
-        this.optimisationEntities = optimisationEntities;
+    public void setOptimisation(OptimisationEntity optimisation) {
+        this.optimisation = optimisation;
     }
 }

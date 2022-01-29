@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "optimisation")
 public class OptimisationEntity extends AbstractEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "campaign_group_id", referencedColumnName = "id")
     private CampaignGroupEntity campaignGroup;
 

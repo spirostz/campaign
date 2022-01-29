@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -22,6 +23,7 @@ class CampaignGroupRepoTest {
     private CampaignGroupRepo campaignGroupRepo;
 
     @Test
+    @Transactional
     void testSampleCampaignGroup() {
 
         CampaignGroupEntity campaignGroup = new CampaignGroupEntity();
@@ -47,7 +49,9 @@ class CampaignGroupRepoTest {
         recommendation2.setOptimisation(optimisation);
         campaign2.setRecommendation(recommendation2);
 
-        campaignGroup.setCampaignEntities(new HashSet<>(Arrays.asList(campaign1, campaign2)));
+        campaignGroup.setCampaigns(new HashSet<>(Arrays.asList(campaign1, campaign2)));
+        campaignGroup.setOptimisation(optimisation);
+        optimisation.setRecommendations(new HashSet<>(Arrays.asList(recommendation1, recommendation2)));
 
         CampaignGroupEntity campaignGroupSaved = campaignGroupRepo.save(campaignGroup);
 

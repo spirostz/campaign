@@ -11,7 +11,7 @@ public class RecommendationEntity extends AbstractEntity {
     @JoinColumn(name = "optimisation_id", referencedColumnName = "id")
     private OptimisationEntity optimisation;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "campaign_id", referencedColumnName = "id")
     private CampaignEntity campaign;
 
