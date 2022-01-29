@@ -30,6 +30,22 @@ class EntityTransformerTest {
         assertNull(sampleTransformer.transformListFromEntityToTransfer(null));
     }
 
+    @Test
+    void transformListFromTransferToEntity() {
+        List<SampleModel> sampleModelList = Arrays.asList(
+                new SampleModel("A"),
+                null,
+                new SampleModel("B")
+        );
+
+        List<SampleEntity> sampleEntityList = sampleTransformer.transformListFromTransferToEntity(sampleModelList);
+        assertEquals("A", sampleEntityList.get(0).getSample());
+        assertNull(sampleEntityList.get(1));
+        assertEquals("B", sampleEntityList.get(2).getSample());
+
+        assertNull(sampleTransformer.transformListFromTransferToEntity(null));
+    }
+
     static class SampleTransformer implements EntityTransformer<SampleEntity, SampleModel> {
 
         @Override
