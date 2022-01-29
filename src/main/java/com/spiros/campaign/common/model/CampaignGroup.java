@@ -1,12 +1,12 @@
 package com.spiros.campaign.common.model;
 
-import java.util.Set;
+import java.util.List;
 
 public class CampaignGroup extends AbstractTransferObject {
 
     private String name;
 
-    private Set<Campaign> campaigns;
+    private List<Campaign> campaigns;
 
     private Optimisation optimisation;
 
@@ -18,11 +18,11 @@ public class CampaignGroup extends AbstractTransferObject {
         this.name = name;
     }
 
-    public Set<Campaign> getCampaigns() {
+    public List<Campaign> getCampaigns() {
         return campaigns;
     }
 
-    public void setCampaigns(Set<Campaign> campaigns) {
+    public void setCampaigns(List<Campaign> campaigns) {
         this.campaigns = campaigns;
     }
 

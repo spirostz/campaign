@@ -3,7 +3,7 @@ package com.spiros.campaign.persistence.entity;
 import com.spiros.campaign.common.enums.OptimisationStatusType;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "optimisation")
@@ -18,7 +18,7 @@ public class OptimisationEntity extends AbstractEntity {
     private OptimisationStatusType optimisationStatus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "optimisation")
-    private Set<RecommendationEntity> recommendations;
+    private List<RecommendationEntity> recommendations;
 
     public CampaignGroupEntity getCampaignGroup() {
         return campaignGroup;
@@ -36,11 +36,11 @@ public class OptimisationEntity extends AbstractEntity {
         this.optimisationStatus = optimisationStatus;
     }
 
-    public Set<RecommendationEntity> getRecommendations() {
+    public List<RecommendationEntity> getRecommendations() {
         return recommendations;
     }
 
-    public void setRecommendations(Set<RecommendationEntity> recommendations) {
+    public void setRecommendations(List<RecommendationEntity> recommendations) {
         this.recommendations = recommendations;
     }
 }

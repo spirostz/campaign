@@ -2,7 +2,7 @@ package com.spiros.campaign.common.model;
 
 import com.spiros.campaign.common.enums.OptimisationStatusType;
 
-import java.util.Set;
+import java.util.List;
 
 public class Optimisation extends AbstractTransferObject {
 
@@ -10,7 +10,7 @@ public class Optimisation extends AbstractTransferObject {
 
     private OptimisationStatusType optimisationStatus;
 
-    private Set<Recommendation> recommendations;
+    private List<Recommendation> recommendations;
 
     public CampaignGroup getCampaignGroup() {
         return campaignGroup;
@@ -28,11 +28,11 @@ public class Optimisation extends AbstractTransferObject {
         this.optimisationStatus = optimisationStatus;
     }
 
-    public Set<Recommendation> getRecommendations() {
+    public List<Recommendation> getRecommendations() {
         return recommendations;
     }
 
-    public void setRecommendations(Set<Recommendation> recommendations) {
+    public void setRecommendations(List<Recommendation> recommendations) {
         this.recommendations = recommendations;
     }
 }

@@ -23,7 +23,7 @@ public class CampaignGroupTransformer implements EntityTransformer<CampaignGroup
         if (entity != null) {
             CampaignGroup campaignGroup = new CampaignGroup();
             campaignGroup.setName(entity.getName());
-            campaignGroup.setCampaigns(campaignTransformer.transformSetFromEntityToTransfer(entity.getCampaigns()));
+            campaignGroup.setCampaigns(campaignTransformer.transformListFromEntityToTransfer(entity.getCampaigns()));
             campaignGroup.setOptimisation(optimisationTransformer.fromEntityToTransfer(entity.getOptimisation()).orElse(null));
             return Optional.of(campaignGroup);
         }

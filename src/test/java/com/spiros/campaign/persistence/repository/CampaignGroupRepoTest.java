@@ -48,9 +48,9 @@ class CampaignGroupRepoTest {
         recommendation2.setOptimisation(optimisation);
         campaign2.setRecommendation(recommendation2);
 
-        campaignGroup.setCampaigns(new HashSet<>(Arrays.asList(campaign1, campaign2)));
+        campaignGroup.setCampaigns(Arrays.asList(campaign1, campaign2));
         campaignGroup.setOptimisation(optimisation);
-        optimisation.setRecommendations(new HashSet<>(Arrays.asList(recommendation1, recommendation2)));
+        optimisation.setRecommendations(Arrays.asList(recommendation1, recommendation2));
 
         CampaignGroupEntity campaignGroupSaved = campaignGroupRepo.save(campaignGroup);
 

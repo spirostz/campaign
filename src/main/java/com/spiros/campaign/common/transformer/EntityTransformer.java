@@ -1,13 +1,10 @@
 package com.spiros.campaign.common.transformer;
 
-import com.spiros.campaign.common.model.Campaign;
-import com.spiros.campaign.persistence.entity.CampaignEntity;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Transforms an Object of type {@link E} to an Object of type {@link T} and vice versa
@@ -21,9 +18,9 @@ public interface EntityTransformer<E, T> {
 
     Optional<E> fromTransferToEntity(@Nullable T transfer);
 
-    default Set<T> transformSetFromEntityToTransfer(@Nullable Set<E> campaigns) {
+    default List<T> transformListFromEntityToTransfer(@Nullable List<E> campaigns) {
         if (campaigns != null) {
-            Set<T> transfers = new HashSet<>();
+            List<T> transfers = new ArrayList<>();
             campaigns.forEach(e -> transfers.add(fromEntityToTransfer(e).orElse(null)));
             return transfers;
         }

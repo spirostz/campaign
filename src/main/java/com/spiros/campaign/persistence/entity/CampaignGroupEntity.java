@@ -1,7 +1,7 @@
 package com.spiros.campaign.persistence.entity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "campaign_group")
@@ -11,7 +11,7 @@ public class CampaignGroupEntity extends AbstractEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
-    private Set<CampaignEntity> campaigns;
+    private List<CampaignEntity> campaigns;
 
     @OneToOne(mappedBy = "campaignGroup")
     private OptimisationEntity optimisation;
@@ -24,11 +24,11 @@ public class CampaignGroupEntity extends AbstractEntity {
         this.name = name;
     }
 
-    public Set<CampaignEntity> getCampaigns() {
+    public List<CampaignEntity> getCampaigns() {
         return campaigns;
     }
 
-    public void setCampaigns(Set<CampaignEntity> campaigns) {
+    public void setCampaigns(List<CampaignEntity> campaigns) {
         this.campaigns = campaigns;
     }
 
