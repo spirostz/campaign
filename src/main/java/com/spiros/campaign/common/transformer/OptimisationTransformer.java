@@ -3,6 +3,7 @@ package com.spiros.campaign.common.transformer;
 import com.spiros.campaign.common.model.Optimisation;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -10,10 +11,27 @@ import java.util.Optional;
 @Component
 public class OptimisationTransformer implements EntityTransformer<OptimisationEntity, Optimisation> {
 
+    @Autowired
+    private CampaignGroupTransformer campaignGroupTransformer;
+
+    @Autowired
+    private RecommendationTransformer recommendationTransformer;
+
     @Override
     public Optional<Optimisation> fromEntityToTransfer(@Nullable OptimisationEntity entity) {
-        //TODO:
-        return Optional.of(new Optimisation());
+
+        if (entity != null) {
+            Optimisation optimisation = new Optimisation();
+            optimisation.setOptimisationStatus(entity.getOptimisationStatus());
+            optimisation.setCampaignGroup(campaignGroupTransformer
+                    .fromEntityToTransfer(entity.getCampaignGroup())
+                    .orElse(null));
+            optimisation.setRecommendations(recommendationTransformer
+                    .transformListFromEntityToTransfer(entity.getRecommendations()));
+            return Optional.of(optimisation);
+
+        }
+        return Optional.empty();
     }
 
     @Override

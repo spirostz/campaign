@@ -27,7 +27,7 @@ class EntityTransformerTest {
         assertNull(sampleModelList.get(1));
         assertEquals("B", sampleModelList.get(2).getSample());
 
-        assertNull(sampleTransformer.transformListFromEntityToTransfer(null));
+        assertNotNull(sampleTransformer.transformListFromEntityToTransfer(null));
     }
 
     @Test
@@ -43,7 +43,7 @@ class EntityTransformerTest {
         assertNull(sampleEntityList.get(1));
         assertEquals("B", sampleEntityList.get(2).getSample());
 
-        assertNull(sampleTransformer.transformListFromTransferToEntity(null));
+        assertNotNull(sampleTransformer.transformListFromTransferToEntity(null));
     }
 
     static class SampleTransformer implements EntityTransformer<SampleEntity, SampleModel> {

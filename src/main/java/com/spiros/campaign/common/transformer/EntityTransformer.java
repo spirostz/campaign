@@ -1,5 +1,6 @@
 package com.spiros.campaign.common.transformer;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -18,22 +19,22 @@ public interface EntityTransformer<E, T> {
 
     Optional<E> fromTransferToEntity(@Nullable T transfer);
 
+    @NotNull
     default List<T> transformListFromEntityToTransfer(@Nullable List<E> entityList) {
+        List<T> transfers = new ArrayList<>();
         if (entityList != null) {
-            List<T> transfers = new ArrayList<>();
             entityList.forEach(e -> transfers.add(fromEntityToTransfer(e).orElse(null)));
-            return transfers;
         }
-        return null;
+        return transfers;
     }
 
+    @NotNull
     default List<E> transformListFromTransferToEntity(@Nullable List<T> modelList) {
+        List<E> entities = new ArrayList<>();
         if (modelList != null) {
-            List<E> entities = new ArrayList<>();
             modelList.forEach(t -> entities.add(fromTransferToEntity(t).orElse(null)));
-            return entities;
         }
-        return null;
+        return entities;
     }
 
 }

@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,6 +20,9 @@ class CampaignGroupRepoTest {
     @Autowired
     private CampaignGroupRepo campaignGroupRepo;
 
+
+    //TODO: Remove code comments
+
     @Test
     @Transactional
     void testCampaignGroup_shouldBeAbleToPersistAllRelevantEntities() {
@@ -29,10 +31,10 @@ class CampaignGroupRepoTest {
         campaignGroup.setName("campaignGroupTest");
 
         CampaignEntity campaign1 = new CampaignEntity();
-        campaign1.setCampaignGroup(campaignGroup);
+       // campaign1.setCampaignGroup(campaignGroup);
 
         CampaignEntity campaign2 = new CampaignEntity();
-        campaign2.setCampaignGroup(campaignGroup);
+        //campaign2.setCampaignGroup(campaignGroup);
 
         OptimisationEntity optimisation = new OptimisationEntity();
         optimisation.setCampaignGroup(campaignGroup);
@@ -40,12 +42,12 @@ class CampaignGroupRepoTest {
 
         RecommendationEntity recommendation1 = new RecommendationEntity();
         recommendation1.setCampaign(campaign1);
-        recommendation1.setOptimisation(optimisation);
+       // recommendation1.setOptimisation(optimisation);
         campaign1.setRecommendation(recommendation1);
 
         RecommendationEntity recommendation2 = new RecommendationEntity();
         recommendation2.setCampaign(campaign2);
-        recommendation2.setOptimisation(optimisation);
+       // recommendation2.setOptimisation(optimisation);
         campaign2.setRecommendation(recommendation2);
 
         campaignGroup.setCampaigns(Arrays.asList(campaign1, campaign2));
