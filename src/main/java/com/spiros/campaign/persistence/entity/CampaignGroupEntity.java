@@ -10,8 +10,11 @@ public class CampaignGroupEntity extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
     Set<CampaignEntity> campaignEntities;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
+    Set<OptimisationEntity> optimisationEntities;
 
     public String getName() {
         return name;
@@ -27,5 +30,13 @@ public class CampaignGroupEntity extends AbstractEntity {
 
     public void setCampaignEntities(Set<CampaignEntity> campaignEntities) {
         this.campaignEntities = campaignEntities;
+    }
+
+    public Set<OptimisationEntity> getOptimisationEntities() {
+        return optimisationEntities;
+    }
+
+    public void setOptimisationEntities(Set<OptimisationEntity> optimisationEntities) {
+        this.optimisationEntities = optimisationEntities;
     }
 }

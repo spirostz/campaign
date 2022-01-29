@@ -16,6 +16,9 @@ public class CampaignEntity extends AbstractEntity {
     private Long impressions;
     private BigDecimal revenue;
 
+    @OneToOne(mappedBy = "campaign")
+    private RecommendationEntity recommendation;
+
     public CampaignGroupEntity getCampaignGroup() {
         return campaignGroup;
     }
@@ -54,5 +57,13 @@ public class CampaignEntity extends AbstractEntity {
 
     public void setRevenue(BigDecimal revenue) {
         this.revenue = revenue;
+    }
+
+    public RecommendationEntity getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(RecommendationEntity recommendation) {
+        this.recommendation = recommendation;
     }
 }
