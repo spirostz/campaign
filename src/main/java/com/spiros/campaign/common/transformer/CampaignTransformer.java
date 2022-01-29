@@ -12,11 +12,11 @@ public class CampaignTransformer  implements EntityTransformer<CampaignEntity, C
 
     @Override
     public Optional<Campaign> fromEntityToTransfer(@Nullable CampaignEntity entity) {
-        return Optional.empty();
+        return Optional.of(new Campaign());
     }
 
     @Override
     public Optional<CampaignEntity> fromTransferToEntity(@Nullable Campaign transfer) {
-        return Optional.empty();
+        return Optional.of(new CampaignEntity());
     }
 }
