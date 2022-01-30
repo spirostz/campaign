@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -32,7 +33,7 @@ class RecommendationTransformerTest {
                 .orElseThrow(IllegalStateException::new);
 
         assertEquals( 56L, result.getId());
-        assertEquals( 0, BigDecimal.ONE.compareTo(result.getRecommendedBudget()), "Equal value check");
+        assertThat(result.getRecommendedBudget()).isEqualByComparingTo(BigDecimal.ONE);
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());
 
@@ -52,7 +53,7 @@ class RecommendationTransformerTest {
                 .orElseThrow(IllegalStateException::new);
 
         assertEquals( 56L, result.getId());
-        assertEquals( 0, BigDecimal.ONE.compareTo(result.getRecommendedBudget()), "Equal value check");
+        assertThat(result.getRecommendedBudget()).isEqualByComparingTo(BigDecimal.ONE);
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());
 

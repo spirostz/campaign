@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -36,9 +37,9 @@ class CampaignTransformerTest {
         assertNotNull(result.getCampaignGroup());
         assertEquals(56L, result.getId());
         assertEquals("Campaign Test Name", result.getName());
-        assertEquals( 0, BigDecimal.TEN.compareTo(result.getBudget()), "Equal value check");
+        assertThat(result.getBudget()).isEqualByComparingTo(BigDecimal.TEN);
         assertEquals( 50L, result.getImpressions());
-        assertEquals( 0, BigDecimal.ONE.compareTo(result.getRevenue()), "Equal value check");
+        assertThat(result.getRevenue()).isEqualByComparingTo(BigDecimal.ONE);
 
         assertFalse(campaignTransformer.fromEntityToTransfer(null).isPresent());
     }
@@ -60,9 +61,9 @@ class CampaignTransformerTest {
         assertNotNull(result.getCampaignGroup());
         assertEquals(56L, result.getId());
         assertEquals("Campaign Test Name", result.getName());
-        assertEquals( 0, BigDecimal.TEN.compareTo(result.getBudget()), "Equal value check");
+        assertThat(result.getBudget()).isEqualByComparingTo(BigDecimal.TEN);
         assertEquals( 50L, result.getImpressions());
-        assertEquals( 0, BigDecimal.ONE.compareTo(result.getRevenue()), "Equal value check");
+        assertThat(result.getRevenue()).isEqualByComparingTo(BigDecimal.ONE);
 
         assertFalse(campaignTransformer.fromTransferToEntity(null).isPresent());
     }
