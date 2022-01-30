@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 public class CampaignEntity extends AbstractEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "campaign_group_id", referencedColumnName = "id")
     private CampaignGroupEntity campaignGroup;
 
@@ -21,7 +21,7 @@ public class CampaignEntity extends AbstractEntity {
     private Long impressions;
     private BigDecimal revenue;
 
-    @OneToOne(mappedBy = "campaign")
+    @OneToOne(mappedBy = "campaign", cascade=CascadeType.ALL)
     private RecommendationEntity recommendation;
 
 }

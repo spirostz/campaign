@@ -53,33 +53,37 @@ public class ImportCampaignProcessService {
     public void processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
 
         //TODO: validate no data/ empty campaignGroupName / missing fields
+        final CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
         List<Recommendation> recommendations = enforceRecommendationsToCampaigns(campaigns);
-        CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
         campaignGroupEntity.setName(campaignGroupName);
-        prepareCampaignGroupForPersistence(campaigns, campaignGroupEntity);
+        //List<CampaignEntity> campaignEntities = prepareCampaignForPersistence(campaigns, campaignGroupEntity);
 
-        OptimisationEntity optimisationEntity = prepareOptimisationForPersistence(recommendations);
-        optimisationEntity = optimisationRepo.save(optimisationEntity);
+        OptimisationEntity optimisationEntity = prepareOptimisationForPersistence(recommendations, campaignGroupEntity);
 
         optimisationEntity.setCampaignGroup(campaignGroupEntity);
         campaignGroupEntity.setOptimisation(optimisationEntity);
 
-        campaignGroupEntity = campaignGroupRepo.save(campaignGroupEntity);
+
+        campaignGroupEntity.setCampaigns(null);
+
+        CampaignGroupEntity savedCampaignGroupEntity = campaignGroupRepo.save(campaignGroupEntity);
 
         //TODO: Decimal places global
 
+        //Use try catch since is always visible
         logger.info("Campaign Group with id: {} and name: {} persisted successfully",
-                campaignGroupEntity.getId(),
-                campaignGroupEntity.getName());
+                savedCampaignGroupEntity.getId(),
+                savedCampaignGroupEntity.getName());
     }
 
-    private OptimisationEntity prepareOptimisationForPersistence(List<Recommendation> recommendations) {
+    private OptimisationEntity prepareOptimisationForPersistence(List<Recommendation> recommendations, CampaignGroupEntity campaignGroupEntity) {
 
         List<RecommendationEntity> recommendationEntities = recommendations.stream()
                 .map(recommendation -> recommendationTransformer.fromTransferToEntity(recommendation)
                         .orElseThrow(IllegalStateException::new))
                 .collect(Collectors.toList());
-        recommendationEntities = recommendationRepo.saveAll(recommendationEntities);
+
+        recommendationEntities.forEach(recommendationEntity -> recommendationEntity.getCampaign().setCampaignGroup(campaignGroupEntity));
 
         OptimisationEntity optimisationEntity = new OptimisationEntity();
         optimisationEntity.setRecommendations(recommendationEntities);
@@ -88,20 +92,16 @@ public class ImportCampaignProcessService {
         return optimisationEntity;
     }
 
-    private CampaignGroupEntity prepareCampaignGroupForPersistence(List<Campaign> campaigns, CampaignGroupEntity campaignGroupEntity) {
+    private List<CampaignEntity> prepareCampaignForPersistence(List<Campaign> campaigns, CampaignGroupEntity campaignGroupEntity) {
 
         List<CampaignEntity> campaignEntities = campaigns.stream()
                 .map(campaign -> campaignTransformer.fromTransferToEntity(campaign)
                         .orElseThrow(IllegalStateException::new))
                 .collect(Collectors.toList());
 
-        campaignEntities = campaignRepo.saveAll(campaignEntities);
+        campaignEntities.forEach(campaignEntity -> campaignEntity.setCampaignGroup(campaignGroupEntity));
 
-        campaignGroupEntity.setCampaigns(campaignEntities);
-        campaignGroupEntity.getCampaigns()
-                .forEach(campaignEntity -> campaignEntity.setCampaignGroup(campaignGroupEntity));
-
-        return campaignGroupEntity;
+        return campaignEntities;
     }
 
     @NotNull
@@ -110,7 +110,7 @@ public class ImportCampaignProcessService {
         campaigns.forEach(campaign -> {
             BigDecimal recommendedBudget = calculateRecommendedBudgetForCampaign(campaigns, campaign);
             Recommendation recommendation = new Recommendation();
-            //recommendation.setCampaign(campaign);
+            recommendation.setCampaign(campaign);
             recommendation.setRecommendedBudget(recommendedBudget);
             recommendations.add(recommendation);
         });

@@ -15,10 +15,10 @@ public class CampaignGroupEntity extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignGroup", cascade=CascadeType.ALL)
     private List<CampaignEntity> campaigns;
 
-    @OneToOne(mappedBy = "campaignGroup")
+    @OneToOne(mappedBy = "campaignGroup", cascade=CascadeType.ALL)
     private OptimisationEntity optimisation;
 
 }
