@@ -1,8 +1,6 @@
 package com.spiros.campaign.view.api.v1;
 
-import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.common.model.Recommendation;
-import com.spiros.campaign.core.api.CampaignApiService;
 import com.spiros.campaign.core.api.OptimisationApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +19,6 @@ public class OptimisationController {
 
     @GetMapping(value = "/recommendations/all/{campaignGroupId}")
     public List<Recommendation> retrieveAllRecommendationsByCampaignGroupId(@PathVariable Long campaignGroupId) {
-        return optimisationApiService.retrieveAllRecommendationsByCampaignGroupId(campaignGroupId);
+        return optimisationApiService.retrieveAllRecommendationsByCampaignGroupIdIfNotApplied(campaignGroupId);
     }
 }
