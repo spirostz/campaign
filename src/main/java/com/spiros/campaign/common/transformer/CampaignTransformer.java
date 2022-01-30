@@ -18,6 +18,7 @@ public class CampaignTransformer  implements EntityTransformer<CampaignEntity, C
     public Optional<Campaign> fromEntityToTransfer(@Nullable CampaignEntity entity) {
         if (entity != null) {
             Campaign campaign = new Campaign();
+            campaign.setId(entity.getId());
             campaign.setCampaignGroup(campaignGroupTransformer
                     .fromEntityToTransfer(entity.getCampaignGroup())
                     .orElse(null));
@@ -34,6 +35,7 @@ public class CampaignTransformer  implements EntityTransformer<CampaignEntity, C
     public Optional<CampaignEntity> fromTransferToEntity(@Nullable Campaign transfer) {
         if (transfer != null) {
             CampaignEntity campaignEntity = new CampaignEntity();
+            campaignEntity.setId(transfer.getId());
             campaignEntity.setCampaignGroup(campaignGroupTransformer
                     .fromTransferToEntity(transfer.getCampaignGroup())
                     .orElse(null));

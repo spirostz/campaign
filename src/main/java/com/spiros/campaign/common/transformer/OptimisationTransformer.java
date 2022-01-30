@@ -19,6 +19,7 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
 
         if (entity != null) {
             Optimisation optimisation = new Optimisation();
+            optimisation.setId(entity.getId());
             optimisation.setOptimisationStatus(entity.getOptimisationStatus());
             optimisation.setCampaignGroup(campaignGroupTransformer
                     .fromEntityToTransfer(entity.getCampaignGroup())
@@ -33,6 +34,7 @@ public class OptimisationTransformer implements EntityTransformer<OptimisationEn
     public Optional<OptimisationEntity> fromTransferToEntity(@Nullable Optimisation transfer) {
         if (transfer != null) {
             OptimisationEntity optimisationEntity = new OptimisationEntity();
+            optimisationEntity.setId(transfer.getId());
             optimisationEntity.setOptimisationStatus(transfer.getOptimisationStatus());
             optimisationEntity.setCampaignGroup(campaignGroupTransformer
                     .fromTransferToEntity(transfer.getCampaignGroup())

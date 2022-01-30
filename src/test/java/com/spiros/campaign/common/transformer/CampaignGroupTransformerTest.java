@@ -24,13 +24,13 @@ class CampaignGroupTransformerTest {
     @Test
     void fromEntityToTransfer() {
         CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
+        campaignGroupEntity.setId(56L);
         campaignGroupEntity.setName("CampaignGroup Sample Name");
-        campaignGroupEntity.setCampaigns(Arrays.asList(new CampaignEntity(), new CampaignEntity()));
-        campaignGroupEntity.setOptimisation(new OptimisationEntity());
 
         CampaignGroup result = campaignGroupTransformer.fromEntityToTransfer(campaignGroupEntity)
                 .orElseThrow(IllegalStateException::new);
 
+        assertEquals(56L, result.getId());
         assertEquals("CampaignGroup Sample Name", result.getName());
 
         assertFalse(campaignGroupTransformer.fromEntityToTransfer(null).isPresent());
@@ -40,11 +40,13 @@ class CampaignGroupTransformerTest {
     @Test
     void fromTransferToEntity() {
         CampaignGroup campaignGroup = new CampaignGroup();
+        campaignGroup.setId(56L);
         campaignGroup.setName("CampaignGroup Sample Name");
 
         CampaignGroupEntity result = campaignGroupTransformer.fromTransferToEntity(campaignGroup)
                 .orElseThrow(IllegalStateException::new);
 
+        assertEquals(56L, result.getId());
         assertEquals("CampaignGroup Sample Name", result.getName());
 
         assertFalse(campaignGroupTransformer.fromTransferToEntity(null).isPresent());

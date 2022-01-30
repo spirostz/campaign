@@ -23,6 +23,7 @@ class RecommendationTransformerTest {
     @Test
     void fromEntityToTransfer() {
         RecommendationEntity recommendationEntity = new RecommendationEntity();
+        recommendationEntity.setId(56L);
         recommendationEntity.setRecommendedBudget(BigDecimal.ONE);
         recommendationEntity.setOptimisation(new OptimisationEntity());
         recommendationEntity.setCampaign(new CampaignEntity());
@@ -30,6 +31,7 @@ class RecommendationTransformerTest {
         Recommendation result = recommendationTransformer.fromEntityToTransfer(recommendationEntity)
                 .orElseThrow(IllegalStateException::new);
 
+        assertEquals( 56L, result.getId());
         assertEquals( 0, BigDecimal.ONE.compareTo(result.getRecommendedBudget()), "Equal value check");
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());
@@ -41,6 +43,7 @@ class RecommendationTransformerTest {
     @Test
     void fromTransferToEntity() {
         Recommendation recommendation = new Recommendation();
+        recommendation.setId(56L);
         recommendation.setRecommendedBudget(BigDecimal.ONE);
         recommendation.setOptimisation(new Optimisation());
         recommendation.setCampaign(new Campaign());
@@ -48,6 +51,7 @@ class RecommendationTransformerTest {
         RecommendationEntity result = recommendationTransformer.fromTransferToEntity(recommendation)
                 .orElseThrow(IllegalStateException::new);
 
+        assertEquals( 56L, result.getId());
         assertEquals( 0, BigDecimal.ONE.compareTo(result.getRecommendedBudget()), "Equal value check");
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());

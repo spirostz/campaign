@@ -24,6 +24,7 @@ class OptimisationTransformerTest {
     @Test
     void fromEntityToTransfer() {
         OptimisationEntity optimisationEntity = new OptimisationEntity();
+        optimisationEntity.setId(56L);
         optimisationEntity.setOptimisationStatus(OptimisationStatusType.APPLIED);
         optimisationEntity.setCampaignGroup(new CampaignGroupEntity());
         optimisationEntity.setRecommendations(Arrays.asList(new RecommendationEntity(), new RecommendationEntity()));
@@ -31,6 +32,7 @@ class OptimisationTransformerTest {
         Optimisation result = optimisationTransformer.fromEntityToTransfer(optimisationEntity)
                 .orElseThrow(IllegalStateException::new);
 
+        assertEquals(56L, result.getId());
         assertEquals(OptimisationStatusType.APPLIED, result.getOptimisationStatus());
         assertNotNull(result.getCampaignGroup());
 
@@ -41,12 +43,14 @@ class OptimisationTransformerTest {
     @Test
     void fromTransferToEntity() {
         Optimisation optimisation = new Optimisation();
+        optimisation.setId(56L);
         optimisation.setOptimisationStatus(OptimisationStatusType.APPLIED);
         optimisation.setCampaignGroup(new CampaignGroup());
 
         OptimisationEntity result = optimisationTransformer.fromTransferToEntity(optimisation)
                 .orElseThrow(IllegalStateException::new);
 
+        assertEquals(56L, result.getId());
         assertEquals(OptimisationStatusType.APPLIED, result.getOptimisationStatus());
         assertNotNull(result.getCampaignGroup());
 

@@ -23,8 +23,8 @@ class CampaignTransformerTest {
     @Test
     void fromEntityToTransfer() {
         CampaignEntity campaignEntity = new CampaignEntity();
+        campaignEntity.setId(56L);
         campaignEntity.setCampaignGroup(new CampaignGroupEntity());
-        campaignEntity.setRecommendation(new RecommendationEntity());
         campaignEntity.setName("Campaign Test Name");
         campaignEntity.setBudget(BigDecimal.TEN);
         campaignEntity.setImpressions(50L);
@@ -34,6 +34,7 @@ class CampaignTransformerTest {
                 .orElseThrow(IllegalStateException::new);
 
         assertNotNull(result.getCampaignGroup());
+        assertEquals(56L, result.getId());
         assertEquals("Campaign Test Name", result.getName());
         assertEquals( 0, BigDecimal.TEN.compareTo(result.getBudget()), "Equal value check");
         assertEquals( 50L, result.getImpressions());
@@ -46,6 +47,7 @@ class CampaignTransformerTest {
     void fromTransferToEntity() {
 
         Campaign campaign = new Campaign();
+        campaign.setId(56L);
         campaign.setCampaignGroup(new CampaignGroup());
         campaign.setName("Campaign Test Name");
         campaign.setBudget(BigDecimal.TEN);
@@ -56,6 +58,7 @@ class CampaignTransformerTest {
                 .orElseThrow(IllegalStateException::new);
 
         assertNotNull(result.getCampaignGroup());
+        assertEquals(56L, result.getId());
         assertEquals("Campaign Test Name", result.getName());
         assertEquals( 0, BigDecimal.TEN.compareTo(result.getBudget()), "Equal value check");
         assertEquals( 50L, result.getImpressions());

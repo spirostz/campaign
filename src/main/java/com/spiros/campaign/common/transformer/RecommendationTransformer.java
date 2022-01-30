@@ -22,6 +22,7 @@ public class RecommendationTransformer implements EntityTransformer<Recommendati
 
         if (entity != null) {
             Recommendation recommendation = new Recommendation();
+            recommendation.setId(entity.getId());
             recommendation.setRecommendedBudget(entity.getRecommendedBudget());
             recommendation.setCampaign(campaignTransformer.fromEntityToTransfer(entity.getCampaign())
                     .orElse(null));
@@ -39,6 +40,7 @@ public class RecommendationTransformer implements EntityTransformer<Recommendati
         
         if (transfer != null) {
             RecommendationEntity recommendationEntity = new RecommendationEntity();
+            recommendationEntity.setId(transfer.getId());
             recommendationEntity.setRecommendedBudget(transfer.getRecommendedBudget());
             recommendationEntity.setCampaign(campaignTransformer.fromTransferToEntity(transfer.getCampaign())
                     .orElse(null));
