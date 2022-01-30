@@ -40,11 +40,8 @@ public class CsvHandlingService {
 
         List<Campaign> campaigns = readCsvDataExceptTitleAndMapToCampaigns(csvRecords);
 
-        CampaignGroupEntity savedCampaignGroupEntity = importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
+        importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
 
-        logger.info("Campaign Group with id: {} and name: {} processed successfully",
-                savedCampaignGroupEntity.getId(),
-                savedCampaignGroupEntity.getName());
     }
 
     private List<CSVRecord> readCsvRecordsFromImputStream(InputStream inStream) throws IOException {

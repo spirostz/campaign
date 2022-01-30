@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,7 @@ class ImportCampaignProcessServiceTest {
     private CampaignGroupRepo campaignGroupRepo;
 
     @Test
+    @Transactional
     void processIncomingData() {
         importCampaignProcessService.processIncomingData(Arrays.asList(campaign1, campaign2), "name1");
 
@@ -50,6 +52,12 @@ class ImportCampaignProcessServiceTest {
         assertNotNull(campaignGroupEntity.getId());
         assertEquals("name1", campaignGroupEntity.getName());
         assertEquals(2, campaignGroupEntity.getCampaigns().size());
+
+        //TODO: finalise it
+      /*  assertThat(campaignGroupEntity.getCampaigns().get(0).getRecommendation().getRecommendedBudget())
+                .isEqualByComparingTo(new BigDecimal("10"));
+        assertThat(campaignGroupEntity.getCampaigns().get(1).getRecommendation().getRecommendedBudget())
+                .isEqualByComparingTo(new BigDecimal("20"));*/
 
         assertNotNull(campaignGroupEntity.getOptimisation().getId());
 

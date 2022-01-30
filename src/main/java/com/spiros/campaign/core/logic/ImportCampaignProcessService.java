@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,16 +49,27 @@ public class ImportCampaignProcessService {
     private RecommendationRepo recommendationRepo;
 
     @Transactional
-    public CampaignGroupEntity processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
+    public void processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
 
         //TODO: validate no data/ empty campaignGroupName / missing fields
+
+        deleteCampaignGroupIfExists(campaignGroupName);
+
         List<Recommendation> recommendations = enforceRecommendationsToCampaigns(campaigns);
 
         CampaignGroupEntity campaignGroupEntity = prepareDataForPersistence(campaignGroupName, recommendations);
 
         //TODO: Decimal places global
 
-        return campaignGroupRepo.save(campaignGroupEntity);
+        campaignGroupRepo.save(campaignGroupEntity);
+    }
+
+    private void deleteCampaignGroupIfExists(String campaignGroupName) {
+        Optional<CampaignGroupEntity> existingCampaignGroup = campaignGroupRepo.findFirstByName(campaignGroupName);
+        existingCampaignGroup.ifPresent(campaignGroupEntity -> {
+            campaignGroupRepo.delete(campaignGroupEntity);
+            campaignGroupRepo.flush();
+        });
     }
 
     @NotNull
