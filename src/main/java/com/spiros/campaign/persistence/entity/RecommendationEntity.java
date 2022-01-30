@@ -13,11 +13,11 @@ import java.math.BigDecimal;
 public class RecommendationEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    @JoinColumn(name = "optimisation_id", referencedColumnName = "id")
+    @JoinColumn(name = "optimisation_id", referencedColumnName = "id", nullable = false)
     private OptimisationEntity optimisation;
 
     @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "campaign_id", referencedColumnName = "id")
+    @JoinColumn(name = "campaign_id", referencedColumnName = "id", nullable = false)
     private CampaignEntity campaign;
 
     @Column(name = "recommended_budget")

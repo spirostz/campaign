@@ -14,7 +14,7 @@ import java.util.List;
 public class OptimisationEntity extends AbstractEntity {
 
     @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "campaign_group_id", referencedColumnName = "id")
+    @JoinColumn(name = "campaign_group_id", referencedColumnName = "id", nullable = false)
     private CampaignGroupEntity campaignGroup;
 
     @Column(name = "optimisation_status")

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class CampaignEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    @JoinColumn(name = "campaign_group_id", referencedColumnName = "id")
+    @JoinColumn(name = "campaign_group_id", referencedColumnName = "id", nullable = false)
     private CampaignGroupEntity campaignGroup;
 
     private String name;
