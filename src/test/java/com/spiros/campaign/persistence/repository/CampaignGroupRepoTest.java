@@ -34,23 +34,23 @@ class CampaignGroupRepoTest {
 
         CampaignEntity campaign1 = new CampaignEntity();
         campaign1.setRevenue(BigDecimal.valueOf(0.12345678987654321));
-       // campaign1.setCampaignGroup(campaignGroup);
+        campaign1.setCampaignGroup(campaignGroup);
 
         CampaignEntity campaign2 = new CampaignEntity();
-        //campaign2.setCampaignGroup(campaignGroup);
+        campaign2.setCampaignGroup(campaignGroup);
 
         OptimisationEntity optimisation = new OptimisationEntity();
-        //optimisation.setCampaignGroup(campaignGroup);
+        optimisation.setCampaignGroup(campaignGroup);
         optimisation.setOptimisationStatus(OptimisationStatusType.NOT_APPLIED);
 
         RecommendationEntity recommendation1 = new RecommendationEntity();
         recommendation1.setCampaign(campaign1);
-       // recommendation1.setOptimisation(optimisation);
+        recommendation1.setOptimisation(optimisation);
         campaign1.setRecommendation(recommendation1);
 
         RecommendationEntity recommendation2 = new RecommendationEntity();
         recommendation2.setCampaign(campaign2);
-       // recommendation2.setOptimisation(optimisation);
+        recommendation2.setOptimisation(optimisation);
         campaign2.setRecommendation(recommendation2);
 
         campaignGroup.setCampaigns(Arrays.asList(campaign1, campaign2));

@@ -53,18 +53,17 @@ public class ImportCampaignProcessService {
     public void processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
 
         //TODO: validate no data/ empty campaignGroupName / missing fields
-        final CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
         List<Recommendation> recommendations = enforceRecommendationsToCampaigns(campaigns);
+
+        final CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
         campaignGroupEntity.setName(campaignGroupName);
-        //List<CampaignEntity> campaignEntities = prepareCampaignForPersistence(campaigns, campaignGroupEntity);
 
         OptimisationEntity optimisationEntity = prepareOptimisationForPersistence(recommendations, campaignGroupEntity);
 
         optimisationEntity.setCampaignGroup(campaignGroupEntity);
         campaignGroupEntity.setOptimisation(optimisationEntity);
 
-
-        campaignGroupEntity.setCampaigns(null);
+        campaignGroupEntity.setCampaigns(optimisationEntity.getRecommendations().stream().map(RecommendationEntity::getCampaign).collect(Collectors.toList()));
 
         CampaignGroupEntity savedCampaignGroupEntity = campaignGroupRepo.save(campaignGroupEntity);
 
