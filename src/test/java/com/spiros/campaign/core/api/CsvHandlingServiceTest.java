@@ -97,7 +97,7 @@ class CsvHandlingServiceTest {
         campaign.setName(name);
         campaign.setBudget(new BigDecimal(budget));
         campaign.setImpressions(impressions);
-        campaign.setRevenue(BigDecimal.ZERO);
+        campaign.setRevenue(null);
         return campaign;
     }
 }
