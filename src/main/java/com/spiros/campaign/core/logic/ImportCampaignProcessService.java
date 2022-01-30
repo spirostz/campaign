@@ -77,15 +77,18 @@ public class ImportCampaignProcessService {
     }
 
     private OptimisationEntity prepareOptimisationForPersistence(List<Recommendation> recommendations, CampaignGroupEntity campaignGroupEntity) {
+        OptimisationEntity optimisationEntity = new OptimisationEntity();
 
         List<RecommendationEntity> recommendationEntities = recommendations.stream()
                 .map(recommendation -> recommendationTransformer.fromTransferToEntity(recommendation)
                         .orElseThrow(IllegalStateException::new))
                 .collect(Collectors.toList());
 
-        recommendationEntities.forEach(recommendationEntity -> recommendationEntity.getCampaign().setCampaignGroup(campaignGroupEntity));
+        recommendationEntities.forEach(recommendationEntity -> {
+            recommendationEntity.setOptimisation(optimisationEntity);
+            recommendationEntity.getCampaign().setCampaignGroup(campaignGroupEntity);
+        });
 
-        OptimisationEntity optimisationEntity = new OptimisationEntity();
         optimisationEntity.setRecommendations(recommendationEntities);
         optimisationEntity.setOptimisationStatus(OptimisationStatusType.NOT_APPLIED);
 
