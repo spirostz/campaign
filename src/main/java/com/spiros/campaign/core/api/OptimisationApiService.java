@@ -23,6 +23,9 @@ public class OptimisationApiService {
     @Autowired
     private RecommendationTransformer recommendationTransformer;
 
+    @Autowired
+    private CampaignApiService campaignApiService;
+
     public List<Recommendation> retrieveAllRecommendationsByCampaignGroupIdIfNotApplied(Long campaignGroupId) {
 
         List<RecommendationEntity> recommendationEntities = recommendationRepo
@@ -32,5 +35,9 @@ public class OptimisationApiService {
                 recommendationTransformer.fromEntityToTransfer(recommendationEntity)
                         .orElseThrow(IllegalStateException::new)
         ).collect(Collectors.toList());
+    }
+
+    public List<Campaign> retrieveLatestOptimisationsByCampaignGroupId(Long campaignGroupId) {
+        return campaignApiService.retrieveAllCampaignsByCampaignGroupId(campaignGroupId);
     }
 }
