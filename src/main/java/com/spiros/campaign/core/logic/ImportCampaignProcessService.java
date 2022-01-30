@@ -10,8 +10,9 @@ import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
 import com.spiros.campaign.persistence.entity.RecommendationEntity;
 import com.spiros.campaign.persistence.repository.CampaignGroupRepo;
+import com.spiros.campaign.persistence.repository.CampaignRepo;
 import com.spiros.campaign.persistence.repository.OptimisationRepo;
-import com.spiros.campaign.view.api.v1.FileController;
+import com.spiros.campaign.persistence.repository.RecommendationRepo;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,20 +43,27 @@ public class ImportCampaignProcessService {
     @Autowired
     private OptimisationRepo optimisationRepo;
 
+    @Autowired
+    private CampaignRepo campaignRepo;
+
+    @Autowired
+    private RecommendationRepo recommendationRepo;
+
     @Transactional
     public void processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
 
         //TODO: validate no data/ empty campaignGroupName / missing fields
-
         List<Recommendation> recommendations = enforceRecommendationsToCampaigns(campaigns);
+        CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
+        campaignGroupEntity.setName(campaignGroupName);
+        prepareCampaignGroupForPersistence(campaigns, campaignGroupEntity);
 
-        CampaignGroupEntity campaignGroupEntity = prepareCampaignGroupForPersistence(campaigns, campaignGroupName);
         OptimisationEntity optimisationEntity = prepareOptimisationForPersistence(recommendations);
-
         optimisationEntity = optimisationRepo.save(optimisationEntity);
-        optimisationEntity.setCampaignGroup(campaignGroupEntity);
 
+        optimisationEntity.setCampaignGroup(campaignGroupEntity);
         campaignGroupEntity.setOptimisation(optimisationEntity);
+
         campaignGroupEntity = campaignGroupRepo.save(campaignGroupEntity);
 
         //TODO: Decimal places global
@@ -72,6 +79,8 @@ public class ImportCampaignProcessService {
                 .map(recommendation -> recommendationTransformer.fromTransferToEntity(recommendation)
                         .orElseThrow(IllegalStateException::new))
                 .collect(Collectors.toList());
+        recommendationEntities = recommendationRepo.saveAll(recommendationEntities);
+
         OptimisationEntity optimisationEntity = new OptimisationEntity();
         optimisationEntity.setRecommendations(recommendationEntities);
         optimisationEntity.setOptimisationStatus(OptimisationStatusType.NOT_APPLIED);
@@ -79,16 +88,16 @@ public class ImportCampaignProcessService {
         return optimisationEntity;
     }
 
-    private CampaignGroupEntity prepareCampaignGroupForPersistence(List<Campaign> campaigns, String campaignGroupName) {
+    private CampaignGroupEntity prepareCampaignGroupForPersistence(List<Campaign> campaigns, CampaignGroupEntity campaignGroupEntity) {
 
         List<CampaignEntity> campaignEntities = campaigns.stream()
                 .map(campaign -> campaignTransformer.fromTransferToEntity(campaign)
                         .orElseThrow(IllegalStateException::new))
                 .collect(Collectors.toList());
-        CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
-        campaignGroupEntity.setName(campaignGroupName);
-        campaignGroupEntity.setCampaigns(campaignEntities);
 
+        campaignEntities = campaignRepo.saveAll(campaignEntities);
+
+        campaignGroupEntity.setCampaigns(campaignEntities);
         campaignGroupEntity.getCampaigns()
                 .forEach(campaignEntity -> campaignEntity.setCampaignGroup(campaignGroupEntity));
 
@@ -101,7 +110,7 @@ public class ImportCampaignProcessService {
         campaigns.forEach(campaign -> {
             BigDecimal recommendedBudget = calculateRecommendedBudgetForCampaign(campaigns, campaign);
             Recommendation recommendation = new Recommendation();
-            recommendation.setCampaign(campaign);
+            //recommendation.setCampaign(campaign);
             recommendation.setRecommendedBudget(recommendedBudget);
             recommendations.add(recommendation);
         });
