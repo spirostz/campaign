@@ -20,6 +20,11 @@ dependencies {
 	implementation group: 'org.jetbrains', name: 'annotations', version: '23.0.0'
 	implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
+
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	testCompileOnly 'org.projectlombok:lombok:1.18.22'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 tasks.named('test') {

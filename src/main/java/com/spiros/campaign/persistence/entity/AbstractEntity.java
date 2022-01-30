@@ -1,9 +1,14 @@
 package com.spiros.campaign.persistence.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class AbstractEntity {
 
@@ -11,13 +16,6 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private Long id;
 
-    //TODO: auto generated create and update date
+    //TODO: add auto generated create and update date
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

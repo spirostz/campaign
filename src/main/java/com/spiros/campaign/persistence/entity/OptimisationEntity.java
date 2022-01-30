@@ -1,12 +1,16 @@
 package com.spiros.campaign.persistence.entity;
 
 import com.spiros.campaign.common.enums.OptimisationStatusType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "optimisation")
+@Getter
+@Setter
 public class OptimisationEntity extends AbstractEntity {
 
     @OneToOne
@@ -20,27 +24,4 @@ public class OptimisationEntity extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "optimisation")
     private List<RecommendationEntity> recommendations;
 
-    public CampaignGroupEntity getCampaignGroup() {
-        return campaignGroup;
-    }
-
-    public void setCampaignGroup(CampaignGroupEntity campaignGroup) {
-        this.campaignGroup = campaignGroup;
-    }
-
-    public OptimisationStatusType getOptimisationStatus() {
-        return optimisationStatus;
-    }
-
-    public void setOptimisationStatus(OptimisationStatusType optimisationStatus) {
-        this.optimisationStatus = optimisationStatus;
-    }
-
-    public List<RecommendationEntity> getRecommendations() {
-        return recommendations;
-    }
-
-    public void setRecommendations(List<RecommendationEntity> recommendations) {
-        this.recommendations = recommendations;
-    }
 }

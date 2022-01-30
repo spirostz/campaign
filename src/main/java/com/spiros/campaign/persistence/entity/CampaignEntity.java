@@ -1,10 +1,15 @@
 package com.spiros.campaign.persistence.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "campaign")
+@Getter
+@Setter
 public class CampaignEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -19,51 +24,4 @@ public class CampaignEntity extends AbstractEntity {
     @OneToOne(mappedBy = "campaign")
     private RecommendationEntity recommendation;
 
-    public CampaignGroupEntity getCampaignGroup() {
-        return campaignGroup;
-    }
-
-    public void setCampaignGroup(CampaignGroupEntity campaignGroup) {
-        this.campaignGroup = campaignGroup;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getBudget() {
-        return budget;
-    }
-
-    public void setBudget(BigDecimal budget) {
-        this.budget = budget;
-    }
-
-    public Long getImpressions() {
-        return impressions;
-    }
-
-    public void setImpressions(Long impressions) {
-        this.impressions = impressions;
-    }
-
-    public BigDecimal getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(BigDecimal revenue) {
-        this.revenue = revenue;
-    }
-
-    public RecommendationEntity getRecommendation() {
-        return recommendation;
-    }
-
-    public void setRecommendation(RecommendationEntity recommendation) {
-        this.recommendation = recommendation;
-    }
 }
