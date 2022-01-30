@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 @Service
 public class CsvHandlingService {
 
-    Logger logger = LoggerFactory.getLogger(ImportCampaignProcessService.class);
-
     public static final BigDecimal INITIAL_VALUE_OF_REVENUE_INSIDE_CAMPAIGN = null;
     public static final String TITLE_NAME = "name";
     public static final String TITLE_BUDGET = "budget";
