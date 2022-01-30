@@ -27,9 +27,8 @@ public class ImportCampaignProcessService {
         //prepareCampaignGroupToPersist();
     }
 
-    //TODO: Test
     @NotNull
-    private List<Recommendation> enforceRecommendationsToCampaigns(@NotNull List<Campaign> campaigns) {
+    List<Recommendation> enforceRecommendationsToCampaigns(@NotNull List<Campaign> campaigns) {
         List<Recommendation> recommendations = new ArrayList<>();
         campaigns.forEach(campaign -> {
             BigDecimal recommendedBudget = calculateRecommendedBudgetForCampaign(campaigns, campaign);
