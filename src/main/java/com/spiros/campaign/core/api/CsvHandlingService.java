@@ -35,7 +35,7 @@ public class CsvHandlingService {
 
         List<Campaign> campaigns = readCsvDataExceptTitleAndMapToCampaigns(csvRecords);
 
-        importCampaignProcessService.processDataFromCsv(campaigns, campaignGroupName);
+        importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
     }
 
     private List<CSVRecord> readCsvRecordsFromImputStream(InputStream inStream) throws IOException {

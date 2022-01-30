@@ -48,7 +48,7 @@ class CsvHandlingServiceTest {
                 createExpectedCampaign("Optily-July2021-TOF-Test", "1", 0L)
         );
 
-        verify(importCampaignProcessService, times(1)).processDataFromCsv(expectedCampaignList, "name1");
+        verify(importCampaignProcessService, times(1)).processIncomingData(expectedCampaignList, "name1");
 
     }
 
@@ -64,7 +64,7 @@ class CsvHandlingServiceTest {
                 createExpectedCampaign("3_299_BBQ_G-A_CV_SHP", "0.00000000001", 29980L)
         );
 
-        verify(importCampaignProcessService, times(1)).processDataFromCsv(expectedCampaignList, "name2");
+        verify(importCampaignProcessService, times(1)).processIncomingData(expectedCampaignList, "name2");
 
     }
 
