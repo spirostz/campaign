@@ -1,11 +1,14 @@
 package com.spiros.campaign.core.logic;
 
 import com.spiros.campaign.common.model.Campaign;
+import com.spiros.campaign.common.model.CampaignGroup;
+import com.spiros.campaign.common.model.Recommendation;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,14 +21,25 @@ public class ImportCampaignProcessService {
         //TODO: validate no data/ empty campaignGroupName / missing fields
 
 
-        enforceRecommendationsToCampaigns(campaigns);
+        List<Recommendation> recommendations = enforceRecommendationsToCampaigns(campaigns);
 
+        //TODO:
+        //prepareCampaignGroupToPersist();
     }
 
-    private void enforceRecommendationsToCampaigns(List<Campaign> campaigns) {
+    //TODO: Test
+    @NotNull
+    private List<Recommendation> enforceRecommendationsToCampaigns(@NotNull List<Campaign> campaigns) {
+        List<Recommendation> recommendations = new ArrayList<>();
+        campaigns.forEach(campaign -> {
+            BigDecimal recommendedBudget = calculateRecommendedBudgetForCampaign(campaigns, campaign);
+            Recommendation recommendation = new Recommendation();
+            recommendation.setCampaign(campaign);
+            recommendation.setRecommendedBudget(recommendedBudget);
+            recommendations.add(recommendation);
+        });
 
-        //TODO
-
+        return recommendations;
     }
 
 
