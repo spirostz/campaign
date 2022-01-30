@@ -17,8 +17,12 @@ public class CampaignEntity extends AbstractEntity {
     private CampaignGroupEntity campaignGroup;
 
     private String name;
+
+    @Column(precision = 19, scale = 8)
     private BigDecimal budget;
     private Long impressions;
+
+    @Column(precision = 19, scale = 8)
     private BigDecimal revenue;
 
     @OneToOne(mappedBy = "campaign", cascade=CascadeType.ALL)

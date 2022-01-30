@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 @Service
 public class ImportCampaignProcessService {
 
-    Logger logger = LoggerFactory.getLogger(ImportCampaignProcessService.class);
-
     @Autowired
     private CampaignTransformer campaignTransformer;
 
@@ -50,12 +48,21 @@ public class ImportCampaignProcessService {
     private RecommendationRepo recommendationRepo;
 
     @Transactional
-    public void processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
+    public CampaignGroupEntity processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
 
         //TODO: validate no data/ empty campaignGroupName / missing fields
         List<Recommendation> recommendations = enforceRecommendationsToCampaigns(campaigns);
 
-        final CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
+        CampaignGroupEntity campaignGroupEntity = prepareDataForPersistence(campaignGroupName, recommendations);
+
+        //TODO: Decimal places global
+
+        return campaignGroupRepo.save(campaignGroupEntity);
+    }
+
+    @NotNull
+    private CampaignGroupEntity prepareDataForPersistence(String campaignGroupName, List<Recommendation> recommendations) {
+        CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
         campaignGroupEntity.setName(campaignGroupName);
 
         OptimisationEntity optimisationEntity = prepareOptimisationForPersistence(recommendations, campaignGroupEntity);
@@ -64,15 +71,7 @@ public class ImportCampaignProcessService {
         campaignGroupEntity.setOptimisation(optimisationEntity);
 
         campaignGroupEntity.setCampaigns(optimisationEntity.getRecommendations().stream().map(RecommendationEntity::getCampaign).collect(Collectors.toList()));
-
-        CampaignGroupEntity savedCampaignGroupEntity = campaignGroupRepo.save(campaignGroupEntity);
-
-        //TODO: Decimal places global
-
-        //Use try catch since is always visible
-        logger.info("Campaign Group with id: {} and name: {} persisted successfully",
-                savedCampaignGroupEntity.getId(),
-                savedCampaignGroupEntity.getName());
+        return campaignGroupEntity;
     }
 
     private OptimisationEntity prepareOptimisationForPersistence(List<Recommendation> recommendations, CampaignGroupEntity campaignGroupEntity) {
@@ -94,18 +93,6 @@ public class ImportCampaignProcessService {
         return optimisationEntity;
     }
 
-    private List<CampaignEntity> prepareCampaignForPersistence(List<Campaign> campaigns, CampaignGroupEntity campaignGroupEntity) {
-
-        List<CampaignEntity> campaignEntities = campaigns.stream()
-                .map(campaign -> campaignTransformer.fromTransferToEntity(campaign)
-                        .orElseThrow(IllegalStateException::new))
-                .collect(Collectors.toList());
-
-        campaignEntities.forEach(campaignEntity -> campaignEntity.setCampaignGroup(campaignGroupEntity));
-
-        return campaignEntities;
-    }
-
     @NotNull
     List<Recommendation> enforceRecommendationsToCampaigns(@NotNull List<Campaign> campaigns) {
         List<Recommendation> recommendations = new ArrayList<>();
@@ -120,7 +107,10 @@ public class ImportCampaignProcessService {
         return recommendations;
     }
 
-
+    /**
+     * Formula to calculate recommendations based on math function:
+     * Budgets[x] = (Impressions[x] / sum(impressions)) * sum(budgets)
+     */
     BigDecimal calculateRecommendedBudgetForCampaign(
             @NotNull List<Campaign> allCampaignsInTheGroup,
             @NotNull Campaign examinedCampaign) {
@@ -137,7 +127,6 @@ public class ImportCampaignProcessService {
 
         BigDecimal impressionsOfExaminedCampaign = BigDecimal.valueOf(examinedCampaign.getImpressions());
 
-        //Budgets[x] = (Impressions[x] / sum(impressions)) * sum(budgets)
         return impressionsOfExaminedCampaign
                 .divide(sumImpressionsOfAllCampaigns, MathContext.DECIMAL128)
                 .multiply(sumBudgetOfAllCampaigns);

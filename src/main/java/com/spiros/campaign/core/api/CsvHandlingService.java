@@ -2,10 +2,13 @@ package com.spiros.campaign.core.api;
 
 import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.core.logic.ImportCampaignProcessService;
+import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CsvHandlingService {
+
+    Logger logger = LoggerFactory.getLogger(ImportCampaignProcessService.class);
 
     public static final BigDecimal INITIAL_VALUE_OF_REVENUE_INSIDE_CAMPAIGN = BigDecimal.ZERO;
     public static final String TITLE_NAME = "name";
@@ -35,7 +40,11 @@ public class CsvHandlingService {
 
         List<Campaign> campaigns = readCsvDataExceptTitleAndMapToCampaigns(csvRecords);
 
-        importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
+        CampaignGroupEntity savedCampaignGroupEntity = importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
+
+        logger.info("Campaign Group with id: {} and name: {} processed successfully",
+                savedCampaignGroupEntity.getId(),
+                savedCampaignGroupEntity.getName());
     }
 
     private List<CSVRecord> readCsvRecordsFromImputStream(InputStream inStream) throws IOException {

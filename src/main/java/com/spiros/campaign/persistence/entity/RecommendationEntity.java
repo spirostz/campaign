@@ -20,6 +20,6 @@ public class RecommendationEntity extends AbstractEntity {
     @JoinColumn(name = "campaign_id", referencedColumnName = "id", nullable = false)
     private CampaignEntity campaign;
 
-    @Column(name = "recommended_budget")
+    @Column(name = "recommended_budget", precision = 19, scale = 8)
     private BigDecimal recommendedBudget;
 }
