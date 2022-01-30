@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class Optimisation extends AbstractTransferObject {
 
     private CampaignGroup campaignGroup;

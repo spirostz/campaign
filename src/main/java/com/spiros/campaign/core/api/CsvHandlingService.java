@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class CsvHandlingService {
 
+    public static final BigDecimal INITIAL_VALUE_OF_REVENUE_INSIDE_CAMPAIGN = BigDecimal.ZERO;
 
     @Autowired
     private ImportCampaignProcessService importCampaignProcessService;
@@ -36,8 +38,17 @@ public class CsvHandlingService {
     }
 
     private Campaign mapCsvRecordToCampaign(CSVRecord csvRecord) {
-        //TODO:
-        return new Campaign();
+        String name = csvRecord.get(0);
+        BigDecimal budget = new BigDecimal(csvRecord.get(1));
+        Long impressions = Long.parseLong(csvRecord.get(2));
+
+        Campaign campaign = new Campaign();
+        campaign.setName(name);
+        campaign.setBudget(budget);
+        campaign.setImpressions(impressions);
+
+        campaign.setRevenue(INITIAL_VALUE_OF_REVENUE_INSIDE_CAMPAIGN);
+        return campaign;
     }
 
 }

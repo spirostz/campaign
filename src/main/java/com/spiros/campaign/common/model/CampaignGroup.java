@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class CampaignGroup extends AbstractTransferObject {
 
     private String name;

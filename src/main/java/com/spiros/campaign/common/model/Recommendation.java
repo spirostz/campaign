@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class Recommendation extends AbstractTransferObject {
 
     private Optimisation optimisation;
