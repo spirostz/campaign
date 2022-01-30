@@ -2,9 +2,12 @@ package com.spiros.campaign.core.logic;
 
 import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.common.model.Recommendation;
+import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
+import com.spiros.campaign.persistence.repository.CampaignGroupRepo;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -13,6 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class ImportCampaignProcessServiceTest {
@@ -31,11 +35,24 @@ class ImportCampaignProcessServiceTest {
             campaign5
     );
 
-    @InjectMocks
+    @Autowired
     private ImportCampaignProcessService importCampaignProcessService;
+
+    @Autowired
+    private CampaignGroupRepo campaignGroupRepo;
 
     @Test
     void processIncomingData() {
+        importCampaignProcessService.processIncomingData(Arrays.asList(campaign1, campaign2), "name1");
+
+        CampaignGroupEntity campaignGroupEntity = campaignGroupRepo.findAll().stream()
+                .findFirst().orElseThrow(IllegalStateException::new);
+
+        assertNotNull(campaignGroupEntity.getId());
+        assertEquals("name1", campaignGroupEntity.getName());
+        assertEquals(2, campaignGroupEntity.getCampaigns().size());
+
+        assertNotNull(campaignGroupEntity.getOptimisation().getId());
 
     }
 

@@ -52,9 +52,15 @@ public class ImportCampaignProcessService {
 
         CampaignGroupEntity campaignGroupEntity = prepareCampaignGroupForPersistence(campaigns, campaignGroupName);
         OptimisationEntity optimisationEntity = prepareOptimisationForPersistence(recommendations);
+
         optimisationEntity = optimisationRepo.save(optimisationEntity);
+        optimisationEntity.setCampaignGroup(campaignGroupEntity);
+
         campaignGroupEntity.setOptimisation(optimisationEntity);
         campaignGroupEntity = campaignGroupRepo.save(campaignGroupEntity);
+
+        //TODO: Decimal places global
+
         logger.info("Campaign Group with id: {} and name: {} persisted successfully",
                 campaignGroupEntity.getId(),
                 campaignGroupEntity.getName());
@@ -82,6 +88,9 @@ public class ImportCampaignProcessService {
         CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
         campaignGroupEntity.setName(campaignGroupName);
         campaignGroupEntity.setCampaigns(campaignEntities);
+
+        campaignGroupEntity.getCampaigns()
+                .forEach(campaignEntity -> campaignEntity.setCampaignGroup(campaignGroupEntity));
 
         return campaignGroupEntity;
     }
@@ -117,6 +126,7 @@ public class ImportCampaignProcessService {
 
         BigDecimal impressionsOfExaminedCampaign = BigDecimal.valueOf(examinedCampaign.getImpressions());
 
+        //Budgets[x] = (Impressions[x] / sum(impressions)) * sum(budgets)
         return impressionsOfExaminedCampaign
                 .divide(sumImpressionsOfAllCampaigns, MathContext.DECIMAL128)
                 .multiply(sumBudgetOfAllCampaigns);
