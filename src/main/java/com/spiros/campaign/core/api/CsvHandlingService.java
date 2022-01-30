@@ -5,13 +5,13 @@ import com.spiros.campaign.core.logic.ImportCampaignProcessService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,22 +19,50 @@ import java.util.stream.Collectors;
 public class CsvHandlingService {
 
     public static final BigDecimal INITIAL_VALUE_OF_REVENUE_INSIDE_CAMPAIGN = BigDecimal.ZERO;
+    public static final String TITLE_NAME = "name";
+    public static final String TITLE_BUDGET = "budget";
+    public static final String TITLE_IMPRESSIONS = "impressions";
 
     @Autowired
     private ImportCampaignProcessService importCampaignProcessService;
 
     public void handleCsvFile(InputStream inStream, String campaignGroupName) throws IOException {
-        BufferedReader fileReader = new BufferedReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
-        CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT);
+        List<CSVRecord> csvRecords = readCsvRecordsFromImputStream(inStream);
 
-        //TODO: validate that title exist and its correct
+        if (!validateThatTitleExistsAndIsCorrect(csvRecords)) {
+            throw new IllegalArgumentException("Csv title validation failed");
+        }
 
-        List<Campaign> campaigns = csvParser.stream()
-                .skip(1) //Skip title
-                .map(this::mapCsvRecordToCampaign )
-                .collect(Collectors.toList());
+        List<Campaign> campaigns = readCsvDataExceptTitleAndMapToCampaigns(csvRecords);
 
         importCampaignProcessService.processDataFromCsv(campaigns, campaignGroupName);
+    }
+
+    private List<CSVRecord> readCsvRecordsFromImputStream(InputStream inStream) throws IOException {
+        BufferedReader fileReader = new BufferedReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
+        CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT);
+        return csvParser.getRecords();
+    }
+
+    private boolean validateThatTitleExistsAndIsCorrect(List<CSVRecord> csvRecords) {
+        CSVRecord titleRecord = csvRecords.get(0);
+        String name = titleRecord.get(0);
+        String budget = titleRecord.get(1);
+        String impressions = titleRecord.get(2);
+
+        return name.equals(TITLE_NAME)
+                &&
+                budget.equals(TITLE_BUDGET)
+                &&
+                impressions.equals(TITLE_IMPRESSIONS);
+    }
+
+    @NotNull
+    private List<Campaign> readCsvDataExceptTitleAndMapToCampaigns(List<CSVRecord> csvRecords) {
+        return csvRecords.stream()
+                .skip(1)
+                .map(this::mapCsvRecordToCampaign)
+                .collect(Collectors.toList());
     }
 
     private Campaign mapCsvRecordToCampaign(CSVRecord csvRecord) {

@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,8 +18,9 @@ import java.util.Map;
 @RequestMapping("/api/v1/csv")
 public class FileController {
 
-    Logger logger = LoggerFactory.getLogger(FileController.class);
+    //TODO: Create IT test
 
+    Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @Autowired
     private CsvHandlingService csvHandlingService;
@@ -40,7 +40,7 @@ public class FileController {
             result.put("msg", "Submitted File: " + file.getOriginalFilename());
             return new ResponseEntity<>(result, HttpStatus.OK);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("Problem uploading file", e);
             result.put("msg", "Problem uploading file " + e.getMessage());
         }

@@ -2,6 +2,8 @@ package com.spiros.campaign.core.api;
 
 import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.core.logic.ImportCampaignProcessService;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -28,9 +30,7 @@ class CsvHandlingServiceTest {
 
     @Test
     void handleCsvFile_givenOriginalFile_shouldConvertedToCampaignsList() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource("campaigns.csv")).getFile());
-        InputStream inStream = new FileInputStream(file);
+        InputStream inStream = readCsvFileAsInputStream("campaigns.csv");
 
         csvHandlingService.handleCsvFile(inStream, "name1");
 
@@ -50,6 +50,46 @@ class CsvHandlingServiceTest {
 
         verify(importCampaignProcessService, times(1)).processDataFromCsv(expectedCampaignList, "name1");
 
+    }
+
+    @Test
+    void handleCsvFile_givenFileWithDecimalsInBudget_shouldConvertedToCampaignsList() throws IOException {
+        InputStream inStream = readCsvFileAsInputStream("campaigns_with_decimals.csv");
+
+        csvHandlingService.handleCsvFile(inStream, "name2");
+
+        List<Campaign> expectedCampaignList = Arrays.asList(
+                createExpectedCampaign("2021-July-BOF-Books", "2108.8962", 36358L),
+                createExpectedCampaign("test", "2108.12345678987654321", 36358L),
+                createExpectedCampaign("3_299_BBQ_G-A_CV_SHP", "0.00000000001", 29980L)
+        );
+
+        verify(importCampaignProcessService, times(1)).processDataFromCsv(expectedCampaignList, "name2");
+
+    }
+
+    @Test
+    void handleCsvFile_givenFileWithInvalidTitles_shouldFail() throws IOException {
+        InputStream inStream = readCsvFileAsInputStream("campaigns_invalid_no_title.csv");
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> csvHandlingService.handleCsvFile(inStream, "nameTest"),
+                "IllegalArgumentException error was expected");
+        assertEquals("Csv title validation failed", exception.getMessage());
+
+        InputStream inStream2 = readCsvFileAsInputStream("campaigns_invalid_wrong_title.csv");
+        IllegalArgumentException exception2 = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> csvHandlingService.handleCsvFile(inStream2, "nameTest"),
+                "IllegalArgumentException error was expected");
+        assertEquals("Csv title validation failed", exception2.getMessage());
+
+    }
+
+    @NotNull
+    private InputStream readCsvFileAsInputStream(String fileName) throws FileNotFoundException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
+        return new FileInputStream(file);
     }
 
     private Campaign createExpectedCampaign(String name, String budget, Long impressions) {
