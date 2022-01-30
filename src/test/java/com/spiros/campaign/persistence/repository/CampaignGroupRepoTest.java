@@ -23,10 +23,6 @@ class CampaignGroupRepoTest {
     @Autowired
     private CampaignGroupRepo campaignGroupRepo;
 
-    @Autowired
-    private CampaignGroupTransformer campaignGroupTransformer;
-
-
     //TODO: Remove code comments
 
     @Test
@@ -44,7 +40,7 @@ class CampaignGroupRepoTest {
         //campaign2.setCampaignGroup(campaignGroup);
 
         OptimisationEntity optimisation = new OptimisationEntity();
-        optimisation.setCampaignGroup(campaignGroup);
+        //optimisation.setCampaignGroup(campaignGroup);
         optimisation.setOptimisationStatus(OptimisationStatusType.NOT_APPLIED);
 
         RecommendationEntity recommendation1 = new RecommendationEntity();
@@ -62,9 +58,6 @@ class CampaignGroupRepoTest {
         optimisation.setRecommendations(Arrays.asList(recommendation1, recommendation2));
 
         CampaignGroupEntity campaignGroupSaved = campaignGroupRepo.save(campaignGroup);
-
-        //TODO: Remove
-        CampaignGroup campaignGroup1 = campaignGroupTransformer.fromEntityToTransfer(campaignGroupSaved).get();
 
         assertEquals(2, campaignGroupSaved.getCampaigns().size());
         assertEquals("campaignGroupTest", campaignGroupSaved.getName());
