@@ -14,9 +14,9 @@ public abstract class LoadSampleCampaignsForApiServiceTest {
     @Autowired
     private CsvHandlingService csvHandlingService;
 
-    public Long loadSampleCampaigns() throws IOException {
+    public Long loadSampleCampaigns(String campaignGroupName) throws IOException {
         InputStream inStream = readCsvFileAsInputStream("campaigns_simple.csv");
-        return csvHandlingService.handleCsvFile(inStream, "groupName1");
+        return csvHandlingService.handleCsvFile(inStream, campaignGroupName);
     }
 
     @NotNull

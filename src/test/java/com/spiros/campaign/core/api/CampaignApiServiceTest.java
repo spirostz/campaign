@@ -19,20 +19,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class CampaignApiServiceTest extends LoadSampleCampaignsForApiServiceTest {
 
     @Autowired
-    private CsvHandlingService csvHandlingService;
-
-    @Autowired
     private CampaignApiService campaignApiService;
 
-    Long campaignGroupId;
+    private Long campaignGroupId;
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        campaignGroupId = loadSampleCampaigns();
+        campaignGroupId = loadSampleCampaigns("groupName1");
     }
 
     @Test
-    void retrieveAllCampaignsByCampaignGroupId() throws IOException {
+    void retrieveAllCampaignsByCampaignGroupId() {
 
         List<Campaign> campaignList = campaignApiService.retrieveAllCampaignsByCampaignGroupId(campaignGroupId);
 
