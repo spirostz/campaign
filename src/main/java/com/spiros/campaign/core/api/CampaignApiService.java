@@ -6,6 +6,7 @@ import com.spiros.campaign.persistence.repository.CampaignRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class CampaignApiService {
     @Autowired
     private CampaignTransformer campaignTransformer;
 
-    //TODO: test
+    @Transactional
     public List<Campaign> retrieveAllCampaignsByCampaignGroupId(Long campaignGroupId) {
         return campaignRepo.findAllByCampaignGroupId(campaignGroupId).stream().map(campaignEntity ->
                 campaignTransformer.fromEntityToTransfer(campaignEntity)
