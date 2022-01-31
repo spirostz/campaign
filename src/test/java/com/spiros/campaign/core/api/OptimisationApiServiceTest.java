@@ -1,5 +1,6 @@
 package com.spiros.campaign.core.api;
 
+import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.common.model.Recommendation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class OptimisationApiServiceTest  extends LoadSampleCampaignsForApiServiceTest {
+class OptimisationApiServiceTest extends LoadSampleCampaignsForApiServiceTest {
 
     @Autowired
     private OptimisationApiService optimisationApiService;
@@ -41,7 +42,7 @@ class OptimisationApiServiceTest  extends LoadSampleCampaignsForApiServiceTest {
 
         //Apply Recommendations
         optimisationApiService.applyOptimisationIfApplicable(campaignGroupId);
-         recommendationList = optimisationApiService
+        recommendationList = optimisationApiService
                 .retrieveAllRecommendationsByCampaignGroupIdIfNotApplied(campaignGroupId);
 
         assertTrue(recommendationList.isEmpty(), "Nothing should be there after recommendations been applied");
@@ -50,9 +51,48 @@ class OptimisationApiServiceTest  extends LoadSampleCampaignsForApiServiceTest {
 
     @Test
     void retrieveLatestOptimisationsByCampaignGroupId() {
+
+        List<Campaign> campaignList = optimisationApiService.retrieveLatestOptimisationsByCampaignGroupId(campaignGroupId);
+
+        Campaign campaign1 = campaignList.get(0);
+        Campaign campaign2 = campaignList.get(1);
+
+        assertEquals("campaign1", campaign1.getName());
+        assertThat(campaign1.getBudget()).isEqualByComparingTo(BigDecimal.valueOf(20));
+        assertEquals(100L, campaign1.getImpressions());
+
+        assertEquals("campaign2", campaign2.getName());
+        assertThat(campaign2.getBudget()).isEqualByComparingTo(BigDecimal.valueOf(30));
+        assertEquals(200L, campaign2.getImpressions());
+
+        //Apply Recommendations
+        optimisationApiService.applyOptimisationIfApplicable(campaignGroupId);
+        campaignList = optimisationApiService.retrieveLatestOptimisationsByCampaignGroupId(campaignGroupId);
+
+        campaign1 = campaignList.get(0);
+        campaign2 = campaignList.get(1);
+
+        assertEquals("campaign1", campaign1.getName());
+        assertThat(campaign1.getBudget()).isNotEqualByComparingTo(BigDecimal.valueOf(20));
+        assertEquals(100L, campaign1.getImpressions());
+
+        assertEquals("campaign2", campaign2.getName());
+        assertThat(campaign2.getBudget()).isNotEqualByComparingTo(BigDecimal.valueOf(30));
+        assertEquals(200L, campaign2.getImpressions());
+
     }
 
     @Test
     void applyOptimisationIfApplicable() {
+
+        assertTrue(optimisationApiService.applyOptimisationIfApplicable(campaignGroupId));
+
+        //Apply Recommendations for second time
+        assertFalse(optimisationApiService.applyOptimisationIfApplicable(campaignGroupId)
+                , "Apply Recommendations for second time");
+
+        //Apply Recommendations for non exiting campaignGroupId
+        assertFalse(optimisationApiService.applyOptimisationIfApplicable(123L)
+                , "Apply Recommendations for second time");
     }
 }
