@@ -16,6 +16,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+//TODO: @RestControllerAdvice
+
 @RestController
 @RequestMapping("/api/v1/campaignGroup")
 public class CampaignGroupController {
@@ -39,13 +41,11 @@ public class CampaignGroupController {
             @PathVariable String campaignGroupName
     ) {
         Map<String, String> result = new LinkedHashMap<>();
-        result.put("campaignGroup", "Name: " + campaignGroupName);
+        result.put("campaignGroupName", campaignGroupName);
 
         try (InputStream inStream = file.getInputStream()) {
-
             csvHandlingService.handleCsvFile(inStream, campaignGroupName);
-
-            result.put("msg", "Submitted File: " + file.getOriginalFilename());
+            result.put("filename", file.getOriginalFilename());
             return new ResponseEntity<>(result, HttpStatus.OK);
 
         } catch (Exception e) {
