@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SampleCsvFileLoaderForApiTests {
+public abstract class SampleCsvFileLoaderForApiTests {
 
     @Autowired
     MockMvc mockMvc;

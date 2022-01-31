@@ -10,6 +10,7 @@ import com.spiros.campaign.persistence.repository.RecommendationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class OptimisationApiService {
     @Autowired
     private OptimisationApplyProcessService optimisationApplyProcessService;
 
+    @Transactional
     public List<Recommendation> retrieveAllRecommendationsByCampaignGroupIdIfNotApplied(Long campaignGroupId) {
 
         List<RecommendationEntity> recommendationEntities = recommendationRepo
@@ -40,10 +42,12 @@ public class OptimisationApiService {
         ).collect(Collectors.toList());
     }
 
+    @Transactional
     public List<Campaign> retrieveLatestOptimisationsByCampaignGroupId(Long campaignGroupId) {
         return campaignApiService.retrieveAllCampaignsByCampaignGroupId(campaignGroupId);
     }
 
+    @Transactional
     public boolean applyOptimisationIfApplicable(Long campaignGroupId) {
        return optimisationApplyProcessService.applyOptimisation(campaignGroupId);
     }

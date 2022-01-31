@@ -33,7 +33,7 @@ class OptimisationApplyProcessServiceTest {
     CampaignGroupEntity campaignGroupEntity = new CampaignGroupEntity();
 
     @BeforeEach
-    public void initEach() {
+    public void beforeEach() {
         optimisationEntity.setOptimisationStatus(OptimisationStatusType.NOT_APPLIED);
         campaignGroupEntity.setOptimisation(optimisationEntity);
         campaignGroupEntity.setCampaigns(Arrays.asList(campaign1, campaign2));

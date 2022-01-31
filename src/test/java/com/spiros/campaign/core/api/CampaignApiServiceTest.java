@@ -2,14 +2,13 @@ package com.spiros.campaign.core.api;
 
 import com.spiros.campaign.common.model.Campaign;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class CampaignApiServiceTest {
+class CampaignApiServiceTest extends LoadSampleCampaignsForApiServiceTest {
 
     @Autowired
     private CsvHandlingService csvHandlingService;
@@ -25,10 +24,15 @@ class CampaignApiServiceTest {
     @Autowired
     private CampaignApiService campaignApiService;
 
+    Long campaignGroupId;
+
+    @BeforeEach
+    public void beforeEach() throws IOException {
+        campaignGroupId = loadSampleCampaigns();
+    }
+
     @Test
     void retrieveAllCampaignsByCampaignGroupId() throws IOException {
-        InputStream inStream = readCsvFileAsInputStream("campaigns_simple.csv");
-        Long campaignGroupId = csvHandlingService.handleCsvFile(inStream, "groupName1");
 
         List<Campaign> campaignList = campaignApiService.retrieveAllCampaignsByCampaignGroupId(campaignGroupId);
 
@@ -43,13 +47,6 @@ class CampaignApiServiceTest {
         assertThat(campaign2.getBudget()).isEqualByComparingTo(BigDecimal.valueOf(30));
         assertEquals(200L, campaign2.getImpressions());
 
-    }
-
-    @NotNull
-    private InputStream readCsvFileAsInputStream(String fileName) throws FileNotFoundException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
-        return new FileInputStream(file);
     }
 
 }
