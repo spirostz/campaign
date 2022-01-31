@@ -3,7 +3,6 @@ package com.spiros.campaign.common.transformer;
 import com.spiros.campaign.common.enums.OptimisationStatusType;
 import com.spiros.campaign.common.model.CampaignGroup;
 import com.spiros.campaign.common.model.Optimisation;
-import com.spiros.campaign.common.model.Recommendation;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
 import com.spiros.campaign.persistence.entity.RecommendationEntity;

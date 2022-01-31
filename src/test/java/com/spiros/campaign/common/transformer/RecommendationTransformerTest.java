@@ -32,7 +32,7 @@ class RecommendationTransformerTest {
         Recommendation result = recommendationTransformer.fromEntityToTransfer(recommendationEntity)
                 .orElseThrow(IllegalStateException::new);
 
-        assertEquals( 56L, result.getId());
+        assertEquals(56L, result.getId());
         assertThat(result.getRecommendedBudget()).isEqualByComparingTo(BigDecimal.ONE);
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());
@@ -52,7 +52,7 @@ class RecommendationTransformerTest {
         RecommendationEntity result = recommendationTransformer.fromTransferToEntity(recommendation)
                 .orElseThrow(IllegalStateException::new);
 
-        assertEquals( 56L, result.getId());
+        assertEquals(56L, result.getId());
         assertThat(result.getRecommendedBudget()).isEqualByComparingTo(BigDecimal.ONE);
         assertNotNull(result.getCampaign());
         assertNotNull(result.getOptimisation());

@@ -87,11 +87,9 @@ class OptimisationApiServiceTest extends LoadSampleCampaignsForApiServiceTest {
 
         assertTrue(optimisationApiService.applyOptimisationIfApplicable(campaignGroupId));
 
-        //Apply Recommendations for second time
         assertFalse(optimisationApiService.applyOptimisationIfApplicable(campaignGroupId)
                 , "Apply Recommendations for second time");
 
-        //Apply Recommendations for non exiting campaignGroupId
         assertFalse(optimisationApiService.applyOptimisationIfApplicable(123L)
                 , "Apply Recommendations for second time");
     }

@@ -1,7 +1,6 @@
 package com.spiros.campaign.core.logic;
 
 import com.spiros.campaign.common.enums.OptimisationStatusType;
-import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.persistence.entity.CampaignEntity;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -22,7 +20,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class OptimisationApplyProcessServiceTest {
@@ -67,9 +64,9 @@ class OptimisationApplyProcessServiceTest {
         doReturn(Optional.empty()).when(campaignGroupRepo).findById(2L);
 
         assertTrue(optimisationApplyProcessService.applyOptimisation(1L));
-        assertFalse(optimisationApplyProcessService.applyOptimisation(1L),"Already applied");
+        assertFalse(optimisationApplyProcessService.applyOptimisation(1L), "Already applied");
 
-        assertFalse(optimisationApplyProcessService.applyOptimisation(2L),"Group not exists");
+        assertFalse(optimisationApplyProcessService.applyOptimisation(2L), "Group not exists");
 
     }
 

@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface CampaignGroupRepo  extends JpaRepository<CampaignGroupEntity, Long> {
+
     Optional<CampaignGroupEntity> findFirstByName(String name);
+
 }

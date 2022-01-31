@@ -36,6 +36,4 @@ public class CampaignGroupTransformer implements EntityTransformer<CampaignGroup
         return Optional.empty();
     }
 
-
-
 }

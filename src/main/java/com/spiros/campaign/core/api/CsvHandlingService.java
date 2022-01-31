@@ -30,7 +30,7 @@ public class CsvHandlingService {
     private ImportCampaignProcessService importCampaignProcessService;
 
     public Long handleCsvFile(InputStream inStream, String campaignGroupName) throws IOException {
-        List<CSVRecord> csvRecords = readCsvRecordsFromImputStream(inStream);
+        List<CSVRecord> csvRecords = readCsvRecordsFromInputStream(inStream);
 
         if (!validateThatTitleExistsAndIsCorrect(csvRecords)) {
             throw new IllegalArgumentException("Csv title validation failed");
@@ -42,7 +42,7 @@ public class CsvHandlingService {
 
     }
 
-    private List<CSVRecord> readCsvRecordsFromImputStream(InputStream inStream) throws IOException {
+    private List<CSVRecord> readCsvRecordsFromInputStream(InputStream inStream) throws IOException {
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
         CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT);
         return csvParser.getRecords();

@@ -79,9 +79,11 @@ public class ImportCampaignProcessService {
         optimisationEntity.setCampaignGroup(campaignGroupEntity);
         campaignGroupEntity.setOptimisation(optimisationEntity);
 
-        campaignGroupEntity.setCampaigns(optimisationEntity.getRecommendations().stream()
-                .map(RecommendationEntity::getCampaign)
-                .collect(Collectors.toList()));
+        campaignGroupEntity.setCampaigns(
+                optimisationEntity.getRecommendations().stream()
+                        .map(RecommendationEntity::getCampaign)
+                        .collect(Collectors.toList())
+        );
         return campaignGroupEntity;
     }
 

@@ -27,17 +27,17 @@ public class OptimisationApplyProcessService {
                     .equals(campaignGroupEntity.getOptimisation().getOptimisationStatus());
 
             if (notAppliedYet) {
-                return applyRecommendationsToCampaigns(campaignGroupEntity);
+                applyRecommendationsToCampaigns(campaignGroupEntity);
+                return true;
             }
         }
         return false;
     }
 
-    private boolean applyRecommendationsToCampaigns(CampaignGroupEntity campaignGroupEntity) {
+    private void applyRecommendationsToCampaigns(CampaignGroupEntity campaignGroupEntity) {
         campaignGroupEntity.getCampaigns()
                 .forEach(campaignEntity -> campaignEntity
                         .setBudget(campaignEntity.getRecommendation().getRecommendedBudget()));
         campaignGroupEntity.getOptimisation().setOptimisationStatus(OptimisationStatusType.APPLIED);
-        return true;
     }
 }

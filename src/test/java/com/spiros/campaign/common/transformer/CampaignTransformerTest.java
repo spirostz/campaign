@@ -2,10 +2,8 @@ package com.spiros.campaign.common.transformer;
 
 import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.common.model.CampaignGroup;
-import com.spiros.campaign.common.model.Recommendation;
 import com.spiros.campaign.persistence.entity.CampaignEntity;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
-import com.spiros.campaign.persistence.entity.RecommendationEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,14 +29,14 @@ class CampaignTransformerTest {
         campaignEntity.setImpressions(50L);
         campaignEntity.setRevenue(BigDecimal.ONE);
 
-        Campaign result =  campaignTransformer.fromEntityToTransfer(campaignEntity)
+        Campaign result = campaignTransformer.fromEntityToTransfer(campaignEntity)
                 .orElseThrow(IllegalStateException::new);
 
         assertNotNull(result.getCampaignGroup());
         assertEquals(56L, result.getId());
         assertEquals("Campaign Test Name", result.getName());
         assertThat(result.getBudget()).isEqualByComparingTo(BigDecimal.TEN);
-        assertEquals( 50L, result.getImpressions());
+        assertEquals(50L, result.getImpressions());
         assertThat(result.getRevenue()).isEqualByComparingTo(BigDecimal.ONE);
 
         assertFalse(campaignTransformer.fromEntityToTransfer(null).isPresent());
@@ -55,14 +53,14 @@ class CampaignTransformerTest {
         campaign.setImpressions(50L);
         campaign.setRevenue(BigDecimal.ONE);
 
-        CampaignEntity result =  campaignTransformer.fromTransferToEntity(campaign)
+        CampaignEntity result = campaignTransformer.fromTransferToEntity(campaign)
                 .orElseThrow(IllegalStateException::new);
 
         assertNotNull(result.getCampaignGroup());
         assertEquals(56L, result.getId());
         assertEquals("Campaign Test Name", result.getName());
         assertThat(result.getBudget()).isEqualByComparingTo(BigDecimal.TEN);
-        assertEquals( 50L, result.getImpressions());
+        assertEquals(50L, result.getImpressions());
         assertThat(result.getRevenue()).isEqualByComparingTo(BigDecimal.ONE);
 
         assertFalse(campaignTransformer.fromTransferToEntity(null).isPresent());

@@ -1,19 +1,17 @@
 package com.spiros.campaign.core.api;
 
 import com.spiros.campaign.common.model.Campaign;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.*;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class CampaignApiServiceTest extends LoadSampleCampaignsForApiServiceTest {

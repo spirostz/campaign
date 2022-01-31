@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 public class OptimisationEntity extends AbstractEntity {
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "campaign_group_id", referencedColumnName = "id", nullable = false)
     private CampaignGroupEntity campaignGroup;
 
@@ -21,7 +21,7 @@ public class OptimisationEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private OptimisationStatusType optimisationStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "optimisation", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "optimisation", cascade = CascadeType.ALL)
     private List<RecommendationEntity> recommendations;
 
 }

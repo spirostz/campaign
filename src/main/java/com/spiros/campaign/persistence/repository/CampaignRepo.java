@@ -10,4 +10,5 @@ import java.util.List;
 public interface CampaignRepo extends JpaRepository<CampaignEntity, Long> {
 
     List<CampaignEntity> findAllByCampaignGroupId(Long campaignGroupId);
+
 }

@@ -47,7 +47,6 @@ public class OptimisationApiService {
         return campaignApiService.retrieveAllCampaignsByCampaignGroupId(campaignGroupId);
     }
 
-    @Transactional
     public boolean applyOptimisationIfApplicable(Long campaignGroupId) {
        return optimisationApplyProcessService.applyOptimisation(campaignGroupId);
     }
