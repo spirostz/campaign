@@ -46,7 +46,7 @@ public class ImportCampaignProcessService {
     private RecommendationRepo recommendationRepo;
 
     @Transactional
-    public void processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
+    public Long processIncomingData(@NotNull List<Campaign> campaigns, String campaignGroupName) {
 
         //TODO: validate no data/ empty campaignGroupName / missing fields
 
@@ -58,7 +58,7 @@ public class ImportCampaignProcessService {
 
         //TODO: Decimal places global
 
-        campaignGroupRepo.save(campaignGroupEntity);
+        return campaignGroupRepo.save(campaignGroupEntity).getId();
     }
 
     private void deleteCampaignGroupIfExists(String campaignGroupName) {

@@ -1,5 +1,6 @@
 package com.spiros.campaign.view.api.v1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
@@ -18,11 +21,18 @@ public class SampleCsvFileLoaderForApiTests {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @NotNull
-    ResultActions loadSampleCsvFile() throws Exception {
-        return mockMvc.perform(multipart("/api/v1/campaignGroup/uploadCsv/testGroup1")
+    String loadSampleCsvFile() throws Exception {
+        ResultActions result = mockMvc.perform(multipart("/api/v1/campaignGroup/uploadCsv/testGroup1")
                 .file(prepareSampleFile())
         );
+        Map<String, String> map = objectMapper
+                .readValue(result.andReturn().getResponse().getContentAsString(), Map.class);
+
+        return map.get("campaignGroupId");
     }
 
     @NotNull

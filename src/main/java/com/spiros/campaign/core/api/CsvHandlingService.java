@@ -29,7 +29,7 @@ public class CsvHandlingService {
     @Autowired
     private ImportCampaignProcessService importCampaignProcessService;
 
-    public void handleCsvFile(InputStream inStream, String campaignGroupName) throws IOException {
+    public Long handleCsvFile(InputStream inStream, String campaignGroupName) throws IOException {
         List<CSVRecord> csvRecords = readCsvRecordsFromImputStream(inStream);
 
         if (!validateThatTitleExistsAndIsCorrect(csvRecords)) {
@@ -38,7 +38,7 @@ public class CsvHandlingService {
 
         List<Campaign> campaigns = readCsvDataExceptTitleAndMapToCampaigns(csvRecords);
 
-        importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
+        return importCampaignProcessService.processIncomingData(campaigns, campaignGroupName);
 
     }
 

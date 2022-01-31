@@ -44,8 +44,9 @@ public class CampaignGroupController {
         result.put("campaignGroupName", campaignGroupName);
 
         try (InputStream inStream = file.getInputStream()) {
-            csvHandlingService.handleCsvFile(inStream, campaignGroupName);
+            Long campaignGroupId = csvHandlingService.handleCsvFile(inStream, campaignGroupName);
             result.put("filename", file.getOriginalFilename());
+            result.put("campaignGroupId", String.valueOf(campaignGroupId));
             return new ResponseEntity<>(result, HttpStatus.OK);
 
         } catch (Exception e) {

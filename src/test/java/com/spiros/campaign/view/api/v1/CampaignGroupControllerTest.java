@@ -23,14 +23,15 @@ class CampaignGroupControllerTest extends SampleCsvFileLoaderForApiTests {
     @Test
     void retrieveAllCampaignGroups() throws Exception {
 
-        loadSampleCsvFile();
+        String groupId = loadSampleCsvFile();
 
         mockMvc.perform(get("/api/v1/campaignGroup/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0]name", is("testGroup1")));
+                .andExpect(jsonPath("$[0]name", is("testGroup1")))
+                .andExpect(jsonPath("$[0]id", is(Integer.parseInt(groupId))));
     }
 
     @Test

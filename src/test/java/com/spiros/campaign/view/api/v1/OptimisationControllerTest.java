@@ -21,9 +21,9 @@ class OptimisationControllerTest extends SampleCsvFileLoaderForApiTests {
     @Test
     void retrieveLatestOptimisationsByCampaignGroupId() throws Exception {
 
-        loadSampleCsvFile();
+        String groupId = loadSampleCsvFile();
 
-        mockMvc.perform(get("/api/v1/optimisation/all/1")
+        mockMvc.perform(get("/api/v1/optimisation/all/" + groupId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -38,9 +38,9 @@ class OptimisationControllerTest extends SampleCsvFileLoaderForApiTests {
     @Test
     void retrieveAllRecommendationsByCampaignGroupIdIfNotApplied() throws Exception {
 
-        loadSampleCsvFile();
+        String groupId = loadSampleCsvFile();
 
-        mockMvc.perform(get("/api/v1/optimisation/recommendations/allNotApplied/1")
+        mockMvc.perform(get("/api/v1/optimisation/recommendations/allNotApplied/" + groupId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -51,25 +51,23 @@ class OptimisationControllerTest extends SampleCsvFileLoaderForApiTests {
                 .andExpect(jsonPath("$[3]recommendedBudget", is(20.0)))
                 .andExpect(jsonPath("$[4]recommendedBudget", is(10.0)));
 
-        applyRecommendations();
+        applyRecommendations(groupId);
 
         //Already applied
-        mockMvc.perform(get("/api/v1/optimisation/recommendations/allNotApplied/1")
+        mockMvc.perform(get("/api/v1/optimisation/recommendations/allNotApplied/" + groupId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("[]"));
-
-
     }
 
     @Test
     void applyOptimisationIfApplicable() throws Exception {
 
-        loadSampleCsvFile();
+        String groupId = loadSampleCsvFile();
 
-        mockMvc.perform(get("/api/v1/optimisation/recommendations/apply/1")
+        mockMvc.perform(get("/api/v1/optimisation/recommendations/apply/" + groupId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -77,7 +75,7 @@ class OptimisationControllerTest extends SampleCsvFileLoaderForApiTests {
                 .andExpect(jsonPath("recommendationApplied", is(true)));
 
         //Already applied
-        mockMvc.perform(get("/api/v1/optimisation/recommendations/apply/1")
+        mockMvc.perform(get("/api/v1/optimisation/recommendations/apply/" + groupId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -85,8 +83,8 @@ class OptimisationControllerTest extends SampleCsvFileLoaderForApiTests {
                 .andExpect(jsonPath("recommendationApplied", is(false)));
     }
 
-    private void applyRecommendations() throws Exception {
-        mockMvc.perform(get("/api/v1/optimisation/recommendations/apply/1")
+    private void applyRecommendations(String groupId) throws Exception {
+        mockMvc.perform(get("/api/v1/optimisation/recommendations/apply/" + groupId)
                 .contentType(MediaType.APPLICATION_JSON));
     }
 }

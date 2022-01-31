@@ -22,9 +22,9 @@ class CampaignControllerTest extends SampleCsvFileLoaderForApiTests {
     @Test
     void retrieveAllCampaignsByCampaignGroupId() throws Exception {
 
-        loadSampleCsvFile();
+        String groupId = loadSampleCsvFile();
 
-        mockMvc.perform(get("/api/v1/campaign/all/1")
+        mockMvc.perform(get("/api/v1/campaign/all/" + groupId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
