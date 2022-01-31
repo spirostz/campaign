@@ -1,8 +1,6 @@
 package com.spiros.campaign.persistence.repository;
 
 import com.spiros.campaign.common.enums.OptimisationStatusType;
-import com.spiros.campaign.common.model.CampaignGroup;
-import com.spiros.campaign.common.transformer.CampaignGroupTransformer;
 import com.spiros.campaign.persistence.entity.CampaignEntity;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
@@ -23,8 +21,6 @@ class CampaignGroupRepoTest {
     @Autowired
     private CampaignGroupRepo campaignGroupRepo;
 
-    //TODO: Remove code comments
-
     @Test
     @Transactional
     void testCampaignGroup_shouldBeAbleToPersistAllRelevantEntities() {
@@ -33,7 +29,7 @@ class CampaignGroupRepoTest {
         campaignGroup.setName("campaignGroupTest");
 
         CampaignEntity campaign1 = new CampaignEntity();
-        campaign1.setRevenue(BigDecimal.valueOf(0.12345678987654321));
+        campaign1.setRevenue(BigDecimal.valueOf(99.12345));
         campaign1.setCampaignGroup(campaignGroup);
 
         CampaignEntity campaign2 = new CampaignEntity();

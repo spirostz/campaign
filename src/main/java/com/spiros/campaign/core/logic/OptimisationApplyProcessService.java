@@ -16,7 +16,6 @@ public class OptimisationApplyProcessService {
     @Autowired
     private CampaignGroupRepo campaignGroupRepo;
 
-    //TODO: test
     @Transactional
     public boolean applyOptimisation(Long campaignGroupId) {
 
