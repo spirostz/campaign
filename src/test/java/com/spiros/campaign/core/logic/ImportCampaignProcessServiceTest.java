@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class ImportCampaignProcessServiceTest {
 
     Campaign campaign1 = sampleCampaign(new BigDecimal("20"), 100L);
@@ -44,10 +46,10 @@ class ImportCampaignProcessServiceTest {
     @Test
     @Transactional
     void processIncomingData() {
-        importCampaignProcessService.processIncomingData(Arrays.asList(campaign1, campaign2), "name1");
+        Long campaignGroupId = importCampaignProcessService.processIncomingData(Arrays.asList(campaign1, campaign2), "name1");
 
-        CampaignGroupEntity campaignGroupEntity = campaignGroupRepo.findAll().stream()
-                .findFirst().orElseThrow(IllegalStateException::new);
+        CampaignGroupEntity campaignGroupEntity = campaignGroupRepo.findById(campaignGroupId)
+                .orElseThrow(IllegalStateException::new);
 
         assertNotNull(campaignGroupEntity.getId());
         assertEquals("name1", campaignGroupEntity.getName());
