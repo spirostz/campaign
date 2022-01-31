@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "356ffbc2-1d7f-41d9-aaf5-bc64e346319f",
+		"name": "Campaign",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Action - CSV File Upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/tzora/Dropbox/campaign project/campaignstest.csv"
+						}
+					]
+				},
+				"url": "localhost:8080/api/v1/campaignGroup/uploadCsv/groupName1"
+			},
+			"response": []
+		},
+		{
+			"name": "View all campain groups",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/api/v1/campaignGroup/all"
+			},
+			"response": []
+		},
+		{
+			"name": "View all campaigns  by group id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/api/v1/campaign/all/241"
+			},
+			"response": []
+		},
+		{
+			"name": "View latest non applied recommendations by group id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/api/v1/optimisation/recommendations/allNotApplied/241"
+			},
+			"response": []
+		},
+		{
+			"name": "Action - Apply recommendations by group id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/api/v1/optimisation/recommendations/apply/241"
+			},
+			"response": []
+		},
+		{
+			"name": "View latest optimisations by group id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/api/v1/optimisation/all/241"
+			},
+			"response": []
+		}
+	]
+}
