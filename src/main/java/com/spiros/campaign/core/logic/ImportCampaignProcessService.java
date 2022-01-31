@@ -5,7 +5,6 @@ import com.spiros.campaign.common.model.Campaign;
 import com.spiros.campaign.common.model.Recommendation;
 import com.spiros.campaign.common.transformer.CampaignTransformer;
 import com.spiros.campaign.common.transformer.RecommendationTransformer;
-import com.spiros.campaign.persistence.entity.CampaignEntity;
 import com.spiros.campaign.persistence.entity.CampaignGroupEntity;
 import com.spiros.campaign.persistence.entity.OptimisationEntity;
 import com.spiros.campaign.persistence.entity.RecommendationEntity;
@@ -14,8 +13,6 @@ import com.spiros.campaign.persistence.repository.CampaignRepo;
 import com.spiros.campaign.persistence.repository.OptimisationRepo;
 import com.spiros.campaign.persistence.repository.RecommendationRepo;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,11 +79,16 @@ public class ImportCampaignProcessService {
         optimisationEntity.setCampaignGroup(campaignGroupEntity);
         campaignGroupEntity.setOptimisation(optimisationEntity);
 
-        campaignGroupEntity.setCampaigns(optimisationEntity.getRecommendations().stream().map(RecommendationEntity::getCampaign).collect(Collectors.toList()));
+        campaignGroupEntity.setCampaigns(optimisationEntity.getRecommendations().stream()
+                .map(RecommendationEntity::getCampaign)
+                .collect(Collectors.toList()));
         return campaignGroupEntity;
     }
 
-    private OptimisationEntity prepareOptimisationForPersistence(List<Recommendation> recommendations, CampaignGroupEntity campaignGroupEntity) {
+    private OptimisationEntity prepareOptimisationForPersistence(
+            List<Recommendation> recommendations,
+            CampaignGroupEntity campaignGroupEntity) {
+
         OptimisationEntity optimisationEntity = new OptimisationEntity();
 
         List<RecommendationEntity> recommendationEntities = recommendations.stream()

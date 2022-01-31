@@ -1,10 +1,7 @@
 package com.spiros.campaign.core.api;
 
 import com.spiros.campaign.common.model.Campaign;
-import com.spiros.campaign.common.model.CampaignGroup;
-import com.spiros.campaign.common.transformer.CampaignGroupTransformer;
 import com.spiros.campaign.common.transformer.CampaignTransformer;
-import com.spiros.campaign.persistence.repository.CampaignGroupRepo;
 import com.spiros.campaign.persistence.repository.CampaignRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

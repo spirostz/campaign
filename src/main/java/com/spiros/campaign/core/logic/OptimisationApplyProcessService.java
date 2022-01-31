@@ -19,18 +19,26 @@ public class OptimisationApplyProcessService {
     //TODO: test
     @Transactional
     public boolean applyOptimisation(Long campaignGroupId) {
+
         Optional<CampaignGroupEntity> campaignGroupEntityOptional = campaignGroupRepo.findById(campaignGroupId);
         if (campaignGroupEntityOptional.isPresent()) {
             CampaignGroupEntity campaignGroupEntity = campaignGroupEntityOptional.get();
-            boolean notAppliedYet = OptimisationStatusType.NOT_APPLIED.equals(campaignGroupEntity.getOptimisation().getOptimisationStatus());
+
+            boolean notAppliedYet = OptimisationStatusType.NOT_APPLIED
+                    .equals(campaignGroupEntity.getOptimisation().getOptimisationStatus());
+
             if (notAppliedYet) {
-                campaignGroupEntity.getCampaigns()
-                        .forEach(campaignEntity -> campaignEntity
-                                .setBudget(campaignEntity.getRecommendation().getRecommendedBudget()));
-                campaignGroupEntity.getOptimisation().setOptimisationStatus(OptimisationStatusType.APPLIED);
-                return true;
+                return applyRecommendationsToCampaigns(campaignGroupEntity);
             }
         }
         return false;
+    }
+
+    private boolean applyRecommendationsToCampaigns(CampaignGroupEntity campaignGroupEntity) {
+        campaignGroupEntity.getCampaigns()
+                .forEach(campaignEntity -> campaignEntity
+                        .setBudget(campaignEntity.getRecommendation().getRecommendedBudget()));
+        campaignGroupEntity.getOptimisation().setOptimisationStatus(OptimisationStatusType.APPLIED);
+        return true;
     }
 }
